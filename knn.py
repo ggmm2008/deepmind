@@ -1,11 +1,12 @@
 from numpy  import  * 
 from ipdb import set_trace
 import operator
+from os import listdir
 
 
 
 def classify0(inX,dataSet,labels,k):
-	set_trace()
+	##set_trace() gogogogo
 	dataSetSize=dataSet.shape[0]
 	diffMat=tile(inX,(dataSetSize,1))-dataSet
 	sqDiffMat=diffMat**2
@@ -40,7 +41,7 @@ def file2matrix(filename):
 	return returnMat,classLabelVector		
 
 def autoNorm(dataSet):
-	set_trace()
+	#set_trace()
 	minVals=dataSet.min(0)
 	maxVals=dataSet.max(0)
 	ranges=maxVals-minVals
@@ -52,18 +53,56 @@ def autoNorm(dataSet):
 
 
 def datingClassTest():
-	hoRation=0.10
+	#set_trace()
+	hoRation=0.06
 	datingDataMat,datingLabels=file2matrix('datingTestSet.txt')
 	normMat,ranges,minVals=autoNorm(datingDataMat)
 	m=normMat.shape[0]
-	numTestVecs=int(m*hoRatio)
+	numTestVecs=int(m*hoRation)
 	errorCount=0.0
+	#set_trace()
 	for i in range(numTestVecs):
-		classifierResult=classify0(normMat[i,:],normMat[numTestVecs:m,:],datingLabels[numTestVecs:m],3)
+		classifierResult=classify0(normMat[i,:],normMat[numTestVecs:m,:],datingLabels[numTestVecs:m],5)
 		print "the classifier came backe with:%d,the real answer is :%d" % (classifierResult,datingLabels[i])
 		if (classifierResult!=datingLabels[i]):errorCount+=1.0
+	#set_trace()
 	print "the total error rate is:%f" % (errorCount/float(numTestVecs))
 
 
-
+def img2vector(filename):
+	returnVect=zeros((1,1024))
+	fr=open(filename)
+	for i in range(32):
+		linestr=fr.readline()
+		#set_trace()
+		for j in range(32):
+			returnVect[0,32*i+j]=int(linestr[j])
+	return returnVect
 		
+
+
+def handwritingClassTest():
+	hwLabels=[]
+	trainingFileList=listdir('/home/linjun/Downloads/machinelearn/machinelearninginaction/Ch02/digits/trainingDigits')
+	m=len(trainingFileList)
+	trainingMat=zeros((m,1024))
+	for i in range(m):
+		fileNameStr=trainingFileList[i]
+		fileStr=fileNameStr.split('.')[0]
+		classNumStr=int(fileStr.split('_')[0])
+		hwLabels.append(classNumStr)
+		trainingMat[i,:]=img2vector('/home/linjun/Downloads/machinelearn/machinelearninginaction/Ch02/digits/trainingDigits/%s' % fileNameStr)
+	testFileList=listdir('/home/linjun/Downloads/machinelearn/machinelearninginaction/Ch02/digits/testDigits')
+	errorCount=0.0
+	mTest=len(testFileList)
+	for i  in range(mTest):
+		fileNameStr=testFileList[i]
+		fileStr=fileNameStr.split('.')[0]
+		classNumStr=int(fileStr.split('_')[0])
+		vectorUnderTest=img2vector('/home/linjun/Downloads/machinelearn/machinelearninginaction/Ch02/digits/testDigits/%s' % fileNameStr)
+		classifierResult=classify0(vectorUnderTest,trainingMat,hwLabels,5)
+		print "the classifier came back with: %d ,the real answer is: %d" % (classifierResult,classNumStr)
+		if (classifierResult!=classNumStr):errorCount+=1.0
+		print "\nthe total number of errors is:%d " % errorCount
+		print "\nthe total error rate is :%f" % (errorCount/float(mTest))
+
