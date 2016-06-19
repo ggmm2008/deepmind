@@ -25,6 +25,7 @@ def createDataSet():
 
 
 def splitDataSet(dataSet,axis,value):
+    set_trace()
     retDataSet=[]
     for featVec in dataSet:
         if featVec[axis]==value:
@@ -32,3 +33,13 @@ def splitDataSet(dataSet,axis,value):
             reduceFeatVec.extend(featVec[axis+1:])
             retDataSet.append(reduceFeatVec)
     return retDataSet
+
+
+def chooseBestFeatureToSplit(dataSet):
+    numFeatures=len(dataSet[0])-1
+    baseEntropy=calcShannonEnt(dataSet)
+    bestInfoGain=0.0;bestFeature=-1
+    for i in range(numFeatures):
+        featList=[exapmple[i]for exapmple in dataSet]
+        uniqueVals=set(featList)
+        newEntropy=0.0
