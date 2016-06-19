@@ -1,5 +1,9 @@
 from math import log
+from ipdb import set_trace
+
+
 def calcShannonEnt(dataSet):
+    set_trace()
     numEntries=len(dataSet)
     labelCounts={}
     for featVec in dataSet:
@@ -15,6 +19,16 @@ def calcShannonEnt(dataSet):
 
 
 def createDataSet():
-    dataSet=[[1,1,'yes'],[1,1,'yes'],[1,0,'no'],[0,1,'no'],[0,1,'no']]
+    dataSet=[[1,1,'maybe'],[1,1,'yes'],[1,1,'yes'],[1,0,'no'],[0,1,'no'],[0,1,'no']]
     labels=['no surfacing','flippers']
     return dataSet,labels
+
+
+def splitDataSet(dataSet,axis,value):
+    retDataSet=[]
+    for featVec in dataSet:
+        if featVec[axis]==value:
+            reduceFeatVec=featVec[:axis]
+            reduceFeatVec.extend(featVec[axis+1:])
+            retDataSet.append(reduceFeatVec)
+    return retDataSet
