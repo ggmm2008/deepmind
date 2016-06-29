@@ -1,0 +1,3 @@
+e3fcd2595795
+e3fcd2595795
+docker run --name django-app1 -v "$PWD":/usr/src/app -w /usr/src/app -p 8000:8000 -d e3fcd2595795 bash -c "pip install -r requirements.txt && python manage.py runserver 0.0.0.0:8000"
