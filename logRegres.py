@@ -29,7 +29,7 @@ def gradAscent(dataMatIn,classLabels):
         h=sigmoid(dataMatrix*weights)
         error=(labelMat-h)
         weights=weights+alpha*dataMatrix.transpose()*error
-   # set_trace()
+    #set_trace()
     return weights
 
 
@@ -54,7 +54,7 @@ def plotBestFit(weights):
     ax.scatter(xcord2,ycord2,s=30,c='green')
     set_trace()
     x=np.arange(-3.0,3.0,0.1)
-    y=(-weights[0]-weights[1]*x)/weights[2]
+    y=np.array((-weights[0]-weights[1]*x)/weights[2])[0]
     ax=plt.plot(x,y)
     plt.xlabel('x1');plt.ylabel('x2');
     plt.show()
@@ -66,9 +66,9 @@ def stocGradAscent0(dataMatrix,classLabels):
     weights=np.ones(n)
     set_trace()
     for i in range(m):
-        h=sigmoid(sum(dataMatrix[i]*weights))
-        error=classLabels[i]-h
-        weights=weights+alpha*error*dataMatrix[i]
+        hd=sigmoid(sum(dataMatrix[i]*weights))
+        error=classLabels[i]-hd
+        weights=weights+list(alpha*error*np.array(dataMatrix[i]))
     return weights
 
 
@@ -76,14 +76,16 @@ def stocGradAscent1(dataMatrix,classLabels,numIter=150):
     m,n=np.shape(dataMatrix)
     #alpha=0.01
     weights=np.ones(n)
-    dataIndex=range(m)
+   
     set_trace()
-    for j in range(numIter):
+    for jd in range(numIter): 
+        dataIndex=range(m)
         for i in range(m):
-            alpha=4/(1.0+j+i)+0.01
+            alpha=4/(1.0+jd+i)+0.01
             randIndex=int(np.random.uniform(0,len(dataIndex)))
-            h=sigmoid(sum(dataMatrix[randIndex]*weights))
-            error=classLabels[randIndex]-h
-            weights=weights+alpha*error*dataMatrix[randIndex]
-            del(dataIndex[randIndex])
+            print '%s/%s,%s/%s,randIndex=%s' % (str(jd),str(numIter),str(i),str(m),str(randIndex))+'\n'
+            hd=sigmoid(sum(dataMatrix[randIndex]*weights))
+            error=classLabels[randIndex]-hd
+            weights=weights+list(alpha*error*np.array(dataMatrix[randIndex]))
+            del(dataIndex[randIndex])           
     return weights
