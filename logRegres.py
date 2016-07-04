@@ -52,7 +52,7 @@ def plotBestFit(weights):
     ax=fig.add_subplot(111)
     ax.scatter(xcord1,ycord1,s=30,c='red',marker='s')
     ax.scatter(xcord2,ycord2,s=30,c='green')
-    set_trace()
+    #set_trace()################
     x=np.arange(-3.0,3.0,0.1)
     y=np.array((-weights[0]-weights[1]*x)/weights[2])[0]
     ax=plt.plot(x,y)
@@ -64,11 +64,11 @@ def stocGradAscent0(dataMatrix,classLabels):
     m,n=np.shape(dataMatrix)
     alpha=0.01
     weights=np.ones(n)
-    set_trace()
+    #set_trace()##################
     for i in range(m):
         hd=sigmoid(sum(dataMatrix[i]*weights))
         error=classLabels[i]-hd
-        weights=weights+list(alpha*error*np.array(dataMatrix[i]))
+        weights=weights+list(alpha*error*np.array(dataMatrix[i])) //nainaide 
     return weights
 
 
@@ -76,14 +76,30 @@ def stocGradAscent1(dataMatrix,classLabels,numIter=150):
     m,n=np.shape(dataMatrix)
     #alpha=0.01
     weights=np.ones(n)
-   
-    set_trace()
+    #set_trace()##################
     for jd in range(numIter): 
         dataIndex=range(m)
         for i in range(m):
             alpha=4/(1.0+jd+i)+0.01
             randIndex=int(np.random.uniform(0,len(dataIndex)))
-            print '%s/%s,%s/%s,randIndex=%s' % (str(jd),str(numIter),str(i),str(m),str(randIndex))+'\n'
+           # print '%s/%s,%s/%s,randIndex=%s' % (str(jd),str(numIter),str(i),str(m),str(randIndex))+'\n'
+            hd=sigmoid(sum(dataMatrix[randIndex]*weights))
+            error=classLabels[randIndex]-hd
+            weights=weights+list(alpha*error*np.array(dataMatrix[randIndex]))
+            del(dataIndex[randIndex])           
+    return weights
+
+def stocGradAscent2(dataMatrix,classLabels,numIter=150):
+    m,n=np.shape(dataMatrix)
+    #alpha=0.01
+    weights=np.ones(n)
+    #set_trace()###################
+    for jd in range(numIter): 
+        dataIndex=range(m)
+        for i in range(m):
+            alpha=4/(1.0+jd+i)+0.02
+            randIndex=int(np.random.uniform(0,len(dataIndex)))
+            #print '%s/%s,%s/%s,randIndex=%s' % (str(jd),str(numIter),str(i),str(m),str(randIndex))+'\n'
             hd=sigmoid(sum(dataMatrix[randIndex]*weights))
             error=classLabels[randIndex]-hd
             weights=weights+list(alpha*error*np.array(dataMatrix[randIndex]))
