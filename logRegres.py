@@ -76,7 +76,7 @@ def stocGradAscent0(dataMatrix,classLabels):
     return weights,xPlot
 
 
-def stocGradAscent2(dataMatrix,classLabels,numIter=250):
+def stocGradAscent2(dataMatrix,classLabels,numIter=2500):
     m,n=np.shape(dataMatrix)
     #alpha=0.01
     weights=np.ones(n)
@@ -107,7 +107,7 @@ def plotdiedai(xPlot):
     #set_trace()################
     x=(pd.DataFrame(xPlot)).ix[:,0]
     y=(pd.DataFrame(xPlot)).ix[:,1]
-    ax.scatter(x,y,s=30,c='green')
+    #ax.scatter(x,y,s=30,c='green')
     ax=plt.plot(x,y)    
     plt.xlabel('x0');plt.ylabel('x1');
     plt.show()
@@ -118,7 +118,7 @@ def plotdiedai(xPlot):
     #set_trace()################
     x=(pd.DataFrame(xPlot)).ix[:,0]
     y=(pd.DataFrame(xPlot)).ix[:,2]
-    ax.scatter(x,y,s=30,c='green')
+    #ax.scatter(x,y,s=30,c='green')
     ax=plt.plot(x,y)    
     plt.xlabel('x0');plt.ylabel('x2');
     plt.show()
@@ -129,7 +129,7 @@ def plotdiedai(xPlot):
     #set_trace()################
     x=(pd.DataFrame(xPlot)).ix[:,0]
     y=(pd.DataFrame(xPlot)).ix[:,3]
-    ax.scatter(x,y,s=30,c='green')
+    #ax.scatter(x,y,s=30,c='green')
     ax=plt.plot(x,y)    
     plt.xlabel('x0');plt.ylabel('x3');
     plt.show()
