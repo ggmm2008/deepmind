@@ -76,7 +76,7 @@ def stocGradAscent0(dataMatrix,classLabels):
     return weights,xPlot
 
 
-def stocGradAscent2(dataMatrix,classLabels,numIter=2500):
+def stocGradAscent2(dataMatrix,classLabels,numIter=250):
     m,n=np.shape(dataMatrix)
     #alpha=0.01
     weights=np.ones(n)
