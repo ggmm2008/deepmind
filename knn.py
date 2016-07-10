@@ -1,7 +1,8 @@
-from numpy  import  * 
+from numpy  import  *
 from ipdb import set_trace
 import operator
 from os import listdir
+
 
 
 
@@ -38,7 +39,7 @@ def file2matrix(filename):
 	tt=list(set(classLabelVector_t))
 	classLabelVector=[tt.index(y)+1 for y in classLabelVector_t]
 	#set_trace()
-	return returnMat,classLabelVector		
+	return returnMat,classLabelVector
 
 def autoNorm(dataSet):
 	#set_trace()
@@ -78,7 +79,7 @@ def img2vector(filename):
 		for j in range(32):
 			returnVect[0,32*i+j]=int(linestr[j])
 	return returnVect
-		
+
 
 
 def handwritingClassTest():
@@ -105,4 +106,3 @@ def handwritingClassTest():
 		if (classifierResult!=classNumStr):errorCount+=1.0
 		print "\nthe total number of errors is:%d " % errorCount
 		print "\nthe total error rate is :%f" % (errorCount/float(mTest))
-
