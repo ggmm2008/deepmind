@@ -1,0 +1,3 @@
+http://feeds.skynews.com/feeds/rss/world.xml
+http://www.cnzjmsa.gov.cn/rssweb/hsywrss/nbrss/index.xml
+http://rss.ustc.edu.cn/rssfeed.php?sn=USTCNewsChineseSiteKeDaYaoWen
