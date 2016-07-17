@@ -11,7 +11,7 @@ def getwordcounts(url):
             summary=e.summary
         else:
             summary=e.description
-    set_trace()
+    #set_trace()
     words=getwords(e.title+' '+summary)
     for word in words:
         wc.setdefault(word,0)
@@ -20,21 +20,22 @@ def getwordcounts(url):
 
 
 def getwords(html):
-    set_trace()
+    #set_trace()
     txt=re.compile(r'<[^>]+>').sub('',html)
     words=re.compile(r'[^A-Z^a-z]+').split(txt)
 
     return[word.lower() for word in words if word!='']
 
-set_trace()
+#set_trace()
 apcount={}
 wordcounts={}
 feedlist=[line for line in file('feedlist.txt')]
 for feedurl in feedlist:
     title,wc=getwordcounts(feedurl)
+    print title
     wordcounts[title]=wc
     for word,count in wc.items():
-        apcount.setdefalut(word,0)
+        apcount.setdefault(word,0)
         if count>1:
             apcount[word]+=1
 
@@ -43,7 +44,7 @@ for w,bc in apcount.items():
     frac=float(bc)/len(feedlist)
     if frac>0.1 and frac<0.5 :wordlist.append(w)
 
-
+#set_trace()
 out=file('blogdata.txt','w')
 out.write('BLOG')
 for word in wordlist:out.write('\t%s' % word)
