@@ -4,5 +4,4 @@ http://www.ftchinese.com/rss/feed
 http://news.ifeng.com/rss/index.xml
 http://www.ifanr.com/feed
 http://www.laifudao.com/rssfeed.xml
-http://cn.engadget.com/rss.xml
 http://blog.sina.com.cn/rss/twocold.xml
