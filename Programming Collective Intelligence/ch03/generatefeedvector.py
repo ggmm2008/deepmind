@@ -76,9 +76,8 @@ for w,bc in apcount.items():
 #out.write('BLOG')
 wordlistP=pd.DataFrame(wordlist,columns=['key'])
 wordcountsP=pd.DataFrame(wordcounts)
-wordout=pd.merge(wordlistP,wordcountsP,left_on='key',right_index=True)
-wordlistP.to_csv('wordlistP.csv',econding='utf-8')
-wordcountsP.to_csv('wordcountsP.csv',econding='utf-8')
-wordout.to_csv('blogdata.csv',econding='utf-8')
-#set_trace()
-print 'creat data.....end'
+wordout=pd.merge(wordlistP,wordcountsP,left_on='key',right_index=True).fillna(0)
+wordlistP.to_csv('wordlistP.csv',encoding='utf-8')
+wordcountsP.to_csv('wordcountsP.csv',encoding='utf-8')
+wordout.to_csv('blogdata.csv',encoding='utf-8')
+

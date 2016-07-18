@@ -21,7 +21,7 @@ class bicluster:
 
 
 def loadSet():
-    dataArr=pd.read_table('blogdata.txt',sep='\t',index_col=0)
+    dataArr=pd.read_csv('blogdata.csv',index_col=1,encoding='utf-8')
     return dataArr
 
 
@@ -40,7 +40,7 @@ def pearson(v1,v2):
 
 
 def hcluster(data,distance=pearson):
-    #set_trace()###############################
+    set_trace()###############################
     distances={}
     currentclustid=-1
     #开始聚类
