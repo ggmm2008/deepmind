@@ -1,7 +1,8 @@
-http://www.tmz.com/rss.xml
-http://www.tuaw.com/rss.xml
-http://www.wired.com/rss/index.xml
-http://blogoscoped.com/rss.xml
-http://www.deadspin.com/index.xml
-http://www.engadget.com/rss.xml
-http://www.kotaku.com/index.xml
+http://rss.huanqiu.com/world/hot.xml
+http://rss.huanqiu.com/world/well_read.xml
+http://www.ftchinese.com/rss/feed
+http://news.ifeng.com/rss/index.xml
+http://www.ifanr.com/feed
+http://www.laifudao.com/rssfeed.xml
+http://cn.engadget.com/rss.xml
+http://blog.sina.com.cn/rss/twocold.xml

@@ -1,6 +1,9 @@
+# -*- coding:utf-8 -*-  
+
 import feedparser
 import re
 from ipdb import set_trace
+import jieba
 
 def getwordcounts(url):
     
@@ -20,11 +23,30 @@ def getwordcounts(url):
 
 
 def getwords(html):
+    word=[]
+    wordG=jieba.cut(html,cut_all=False)
+    for k in wordG:
+        #set_trace()
+        for i in range(len(k)):
+            is_chinese_value=True
+            if is_chinese(k[i])==False:
+                is_chinese_value=False
+                break
+        if is_chinese_value==True:
+            print k
+            word.append(k)
+    #print word
     #set_trace()
-    txt=re.compile(r'<[^>]+>').sub('',html)
-    words=re.compile(r'[^A-Z^a-z]+').split(txt)
+    return word
 
-    return[word.lower() for word in words if word!='']
+def is_chinese(uchar):
+        """判断一个unicode是否是汉字"""
+        #set_trace()
+        if uchar >= u'\u4e00' and uchar<=u'\u9fa5':
+                return True
+        else:
+                return False
+
 
 #set_trace()
 apcount={}
@@ -44,10 +66,13 @@ for w,bc in apcount.items():
     frac=float(bc)/len(feedlist)
     if frac>0.1 and frac<0.5 :wordlist.append(w)
 
-#set_trace()
+set_trace()
 out=file('blogdata.txt','w')
 out.write('BLOG')
-for word in wordlist:out.write('\t%s' % word)
+for word in wordlist:
+    print word
+    out.write(word.encode('utf-8'))
+    out.write('\t')
 out.write('\n')
 for blog,wc in wordcounts.items():
     out.write(blog)
