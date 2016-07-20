@@ -15,13 +15,14 @@ class bicluster:
         self.vec=vec
         self.id=id
         self.distance=distance
+        print "id:%d\n" % self.id
 
     def printData():
         print ("left:%s,right:%s,id:%s,distance:%f") % (self.lef,self.right,self.id,self.distance)
 
 
 def loadSet():
-    dataArr=pd.read_csv('blogdata.csv',index_col=1,encoding='utf-8')
+    dataArr=pd.read_csv('blogdata.csv',index_col=0,encoding='utf-8')
     return dataArr
 
 
@@ -51,6 +52,7 @@ def hcluster(data,distance=pearson):
         closest=distance(clust[0].vec,clust[1].vec)
         for i in range(len(clust)):
             for j in range(i+1,len(clust)):
+                print "distance :(%d,%d)" % (i,j)
                 if(clust[i].id,clust[i].id) not in distances:
                     distances[(clust[i].id,clust[j].id)]=distance(clust[i].vec,clust[j].vec)
                 d=distances[(clust[i].id,clust[j].id)]
