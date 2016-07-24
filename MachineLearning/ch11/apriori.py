@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-  
+#机器学习，微信号13547948911
 
 from numpy import *
 from ipdb import set_trace
