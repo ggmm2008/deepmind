@@ -30,13 +30,13 @@ def randCent(dataSet,k):
         centroids[:,j]=minJ+rangeJ*random.rand(k,1)
     return centroids
 
-#显示图标
+#显示图标，展示分类效果
 def plotData(centroids,dataMat,clusterAssment):
     colors=['b','g','c','m','y','k']
     dataMatPD=pd.concat([pd.DataFrame(dataMat,columns=['key1','key2'])\
         ,pd.DataFrame(clusterAssment,columns=['key3','key4'])],axis=1)
     fig=plt.figure(str(datetime.now())[-6:])
-    plt.scatter(centroids[:,0],centroids[:,1],color='r',figure=fig)    
+    plt.scatter(centroids[:,0],centroids[:,1],color='r',s=90,figure=fig)    
     for name,group in dataMatPD.groupby('key3'):
         plt.scatter(group.ix[:,0],group.ix[:,1],label=name,\
             figure=fig,color=colors[(random.randint(0,len(colors)))])    
@@ -55,7 +55,7 @@ def kMeans(dataSet,k,distMeas=distEclud,createCent=randCent):
             minDist=inf;minIndex=-1
             for j in range(k):
                 distJI=distMeas(centroids[j,:],dataSet[i,:])
-                print i,j
+                #print i,j
                 if distJI<minDist:
                     minDist=distJI;minIndex=j
             if clusterAssment[i,0]!=minIndex:clusterchanged=True
@@ -65,8 +65,8 @@ def kMeans(dataSet,k,distMeas=distEclud,createCent=randCent):
             #set_trace()
             ptsInClust=dataSet[nonzero(clusterAssment[:,0].A==cent)[0]]
             centroids[cent,:]=mean(ptsInClust,axis=0)
-        #set_trace()
-        plotData(centroids,dataSet,clusterAssment)
+    #set_trace()
+    #plotData(centroids,dataSet,clusterAssment)
     return centroids,clusterAssment
     
 
@@ -79,7 +79,7 @@ def biKmeans(dataSet,k,distMeas=distEclud):
     centList=[centroid0]
     for j in range(m):
         clusterAssment[j,1]=distMeas(mat(centroid0),dataSet[j,:])**2
-    set_trace()
+    #set_trace()
     while(len(centList)<k):
         lowestSSE=inf
         for i in range(len(centList)):
@@ -101,8 +101,9 @@ def biKmeans(dataSet,k,distMeas=distEclud):
         centList[bestCentToSplit]=bestNewCents[0,:]
         centList.append(bestNewCents[1,:])
         clusterAssment[nonzero(clusterAssment[:,0].A==bestCentToSplit)[0],:]=bestClustAss
-    
-    return mat(centList),clusterAssment
+    plotData(mat(array(centList)),dataSet,clusterAssment)
+    #set_trace()
+    return mat(array(centList)),clusterAssment
 
 
 
