@@ -3,6 +3,8 @@
 from numpy import *
 from ipdb import set_trace
 import matplotlib.pyplot as plt
+from datetime import datetime
+import pandas as pd
 
 def loadDataSet(fileName):
     set_trace()
@@ -29,11 +31,15 @@ def randCent(dataSet,k):
     return centroids
 
 #显示图标
-def plotData(centroids,dataMat):
-    plt.scatter(centroids[:,0],centroids[:,1],color='r')
-    plt.scatter(dataMat[:,0],dataMat[:,1])
-
-
+def plotData(centroids,dataMat,clusterAssment):
+    colors=['b','g','c','m','y','k']
+    dataMatPD=pd.concat([pd.DataFrame(dataMat,columns=['key1','key2'])\
+        ,pd.DataFrame(clusterAssment,columns=['key3','key4'])],axis=1)
+    fig=plt.figure(str(datetime.now())[-6:])
+    plt.scatter(centroids[:,0],centroids[:,1],color='r',figure=fig)    
+    for name,group in dataMatPD.groupby('key3'):
+        plt.scatter(group.ix[:,0],group.ix[:,1],label=name,\
+            figure=fig,color=colors[(random.randint(0,len(colors)))])    
 
 
 def kMeans(dataSet,k,distMeas=distEclud,createCent=randCent):
@@ -59,8 +65,11 @@ def kMeans(dataSet,k,distMeas=distEclud,createCent=randCent):
             #set_trace()
             ptsInClust=dataSet[nonzero(clusterAssment[:,0].A==cent)[0]]
             centroids[cent,:]=mean(ptsInClust,axis=0)
+        #set_trace()
+        plotData(centroids,dataSet,clusterAssment)
     return centroids,clusterAssment
     
+
 
 def biKmeans(dataSet,k,distMeas=distEclud):
     #set_trace()
@@ -71,9 +80,9 @@ def biKmeans(dataSet,k,distMeas=distEclud):
     for j in range(m):
         clusterAssment[j,1]=distMeas(mat(centroid0),dataSet[j,:])**2
     set_trace()
-    while(len(centroid0)<k):
+    while(len(centList)<k):
         lowestSSE=inf
-        for i in range(len(centroid0)):
+        for i in range(len(centList)):
             print "i:%d" % i
             ptsInCurrCluster=dataSet[nonzero(clusterAssment[:,0].A==i)[0],:]
             centroidMat,splitClustAss=kMeans(ptsInCurrCluster,2,distMeas)
