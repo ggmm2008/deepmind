@@ -12,4 +12,32 @@ def loadDataSet():
 
 
 def createC1(dataSet):
+    set_trace()
     C1=[]
+    for transaction in dataSet:
+        for item in transaction:
+            if not [item] in C1:
+                C1.append([item])
+    C1.sort()
+    return map(frozenset,C1)
+
+
+def scanD(D,CK,minSupport):
+    set_trace()
+    ssCnt={}
+    for tid in D:
+        for can in CK:  
+            if can.issubset(tid):
+                if not sscnt.has_key(can):ssCnt[can]=1
+                else:ssCnt[can]+=1
+    numItems=float(len(D))
+    retList=[]
+    supportData={}
+    for key in ssCnt:
+        support=ssCnt[key]/numItems
+        if support>=minSupport:
+            retList.insert(0,key)
+        supportData[key]=support
+    return retList,supportData
+
+
