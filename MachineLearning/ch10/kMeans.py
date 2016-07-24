@@ -10,9 +10,12 @@ def loadDataSet(fileName):
     set_trace()
     dataMat=[]
     fr=open(fileName)
+    i=0
     for line in fr.readlines():
-        curLine=line.strip().split('\t')
-        fltLine=map(float,curLine)
+        i+=1
+        print "i:%d" % i
+        curLine=line.strip().split(',')
+        fltLine=map(int,curLine)
         dataMat.append(fltLine)
     return mat(dataMat)
     
