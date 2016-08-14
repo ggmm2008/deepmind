@@ -3,6 +3,7 @@
 from ipdb import set_trace
 from math import log
 import operator
+import matplotlib.pyplot as plt
 
 
 def loadDataSet():
@@ -82,3 +83,6 @@ def createTree(dataSet,labels):
     return myTree
 
 #wo kao
+
+
+
