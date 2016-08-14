@@ -1,4 +1,8 @@
+# -*- coding:utf-8 -*-  
+
+from ipdb import set_trace
 from math import log
+
 
 def loadDataSet():
     dataSet=[[1,1,'yes'],[1,1,'yes'],[1,0,'no'],[0,1,'no'],[0,1,'no']]
@@ -16,13 +20,22 @@ def calcShannonEnt(dataSet):
     for key in labelCounts:
         prob=float(labelCounts[key])/numEntries
         shannonEnt-=prob*log(prob,2)
+    print 'shannonEnt:%f' % shannonEnt
     return shannonEnt
 
 def splitDataSet(dataSet,axis,value):
+    #set_trace()
     retDataSet=[]
     for featVec in dataSet:
         if featVec[axis]==value:
             reducedFeatVec=featVec[:axis]
             reducedFeatVec.extend(featVec[axis+1:])
             retDataSet.append(reducedFeatVec)
-    return reducedFeatVec
+    return retDataSet
+
+
+def chooseBestFeatureToSplit(dataSet):
+    set_trace()
+    numFeatures=len(dataSet[0])-1
+    baseEntropy=calcShannonEnt(dataSet)
+    
