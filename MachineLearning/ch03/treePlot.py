@@ -13,7 +13,7 @@ def plotNode(nodeTxt,centerPt,parentPt,nodeType):
     bbox=nodeType,arrowprops=arrow_args)
 
 
-def createPlot():
+def createPlot2():
     #set_trace()
     fig=plt.figure(1,facecolor='white')
     fig.clf()
@@ -62,6 +62,7 @@ def plotMidText(cntrPt,parentPt,txtString):
 
 
 def plotTree(myTree,parentPt,nodeTxt):
+    set_trace()
     numLeafs=getNumLeafs(myTree)
     depth=getTreeDepth(myTree)
     firstStr=myTree.keys()[0]
@@ -77,11 +78,12 @@ def plotTree(myTree,parentPt,nodeTxt):
             plotTree.xoff=plotTree.xoff+1.0/plotTree.totalW
             plotNode(secondDict[key],(plotTree.xoff,plotTree.yoff),cntrPt,leafNode)
             plotMidText((plotTree.xoff,plotTree.yoff),cntrPt,str(key))
-    plotTree.yoff=plotTree.yoff+1.0/plotTreee.totalD
+    plotTree.yoff=plotTree.yoff+1.0/plotTree.totalD
 
 
 
 def createPlot(inTree):
+    set_trace()
     fig=plt.figure(1,facecolor='white')
     fig.clf()
     axprops=dict(xticks=[],yticks=[])
@@ -91,3 +93,6 @@ def createPlot(inTree):
     plotTree.xoff=-0.5/plotTree.totalW;plotTree.yoff=1.0;
     plotTree(inTree,(0.5,1.0),'')
     plt.show()
+
+
+
