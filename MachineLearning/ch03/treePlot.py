@@ -62,7 +62,7 @@ def plotMidText(cntrPt,parentPt,txtString):
 
 
 def plotTree(myTree,parentPt,nodeTxt):
-    set_trace()
+    #set_trace()
     numLeafs=getNumLeafs(myTree)
     depth=getTreeDepth(myTree)
     firstStr=myTree.keys()[0]
@@ -83,7 +83,7 @@ def plotTree(myTree,parentPt,nodeTxt):
 
 
 def createPlot(inTree):
-    set_trace()
+    #set_trace()
     fig=plt.figure(1,facecolor='white')
     fig.clf()
     axprops=dict(xticks=[],yticks=[])
