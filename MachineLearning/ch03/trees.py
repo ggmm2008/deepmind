@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 def loadDataSet():
     dataSet=[[1,1,'yes'],[1,1,'yes'],[1,0,'no'],[0,1,'no'],[0,1,'no']]
-    labels=['no surfacing','flippers']
+    labels=['flippers','no surfacing']
     return dataSet,labels
 
 def calcShannonEnt(dataSet):
@@ -86,13 +86,39 @@ def createTree(dataSet,labels):
 
 
 def classify(inputTree,featLabels,testVec):
+    #set_trace()
     firstStr=inputTree.keys()[0]
     secondDict=inputTree[firstStr]
     featIndex=featLabels.index(firstStr)
+    print secondDict
     for key in secondDict.keys():
         if testVec[featIndex]==key:
             if type(secondDict[key]).__name__=='dict':
                 classLabel=classify(secondDict[key],featLabels,testVec)
             else:classLabel=secondDict[key]
     return classLabel
+
+#=================================
+#   store tree
+#
+#
+#==================================
+
+def storeTree(inputTree,filename):
+    import pickle
+    fw=open(filename,'w')
+    pickle.dump(inputTree,fw)
+    fw.close()
+
+
+#====================================
+#
+#   reload tree
+#
+#====================================
+
+def grabTree(filename):
+    import pickle
+    fr=open(filename)
+    return pickle.load(fr)
 
