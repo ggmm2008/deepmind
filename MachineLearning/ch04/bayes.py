@@ -1,3 +1,14 @@
+# -*- coding:utf-8 -*-  
+#===============================
+#  
+#+==============================
+
+
+
+from ipdb import set_trace
+import numpy as np
+
+
 def loadDataSet():
     postingList=[['my', 'dog', 'has', 'flea', 'problems', 'help', 'please'],
                  ['maybe', 'not', 'take', 'him', 'to', 'dog', 'park', 'stupid'],
@@ -23,18 +34,28 @@ def setOfWords2Vec(vocabList, inputSet):
     return returnVec
 
 def trainNB0(trainMatrix,trainCategory):
+    #set_trace()
     numTrainDocs = len(trainMatrix)
     numWords = len(trainMatrix[0])
     pAbusive = sum(trainCategory)/float(numTrainDocs)
-    p0Num = ones(numWords); p1Num = ones(numWords)      #change to ones() 
+    p0Num = np.ones(numWords); p1Num = np.ones(numWords)      #change to ones() 
     p0Denom = 2.0; p1Denom = 2.0                        #change to 2.0
     for i in range(numTrainDocs):
         if trainCategory[i] == 1:
+            #set_trace()
             p1Num += trainMatrix[i]
             p1Denom += sum(trainMatrix[i])
         else:
             p0Num += trainMatrix[i]
             p0Denom += sum(trainMatrix[i])
-    p1Vect = log(p1Num/p1Denom)          #change to log()
-    p0Vect = log(p0Num/p0Denom)          #change to log()
+    #set_trace()
+    p1Vect = np.log(p1Num/p1Denom)         #change to log()
+    p0Vect = np.log(p0Num/p0Denom)        #change to log()
     return p0Vect,p1Vect,pAbusive
+
+
+def listVec(vocabList,inputSet):
+    trainMat=[]
+    for postinDoc in inputSet:
+        trainMat.append(setOfWords2Vec(vocabList,postinDoc))
+    return trainMat
