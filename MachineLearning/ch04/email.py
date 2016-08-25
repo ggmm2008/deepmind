@@ -55,5 +55,9 @@ def spamTest():
         #set_trace()
         if classifyNb(wordVector,p0V,p1V,pSpam)!=classList[docIndex]:
             errorCount+=1
+            print '================================================='
+            print 'calssification error :',docIndex,docList[docIndex]
+            print '================================================='
+    print 'errorCount:%d,testSet:%d' % (errorCount,len(testSet))
     print 'the error rate is:' ,float(errorCount)/len(testSet)
 
