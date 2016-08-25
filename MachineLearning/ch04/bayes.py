@@ -26,6 +26,7 @@ def createVocabList(dataSet):
     return list(vocabSet)
 
 def setOfWords2Vec(vocabList, inputSet):
+    #set_trace()
     returnVec = [0]*len(vocabList)
     for word in inputSet:
         if word in vocabList:
@@ -48,7 +49,7 @@ def trainNB0(trainMatrix,trainCategory):
         else:
             p0Num += trainMatrix[i]
             p0Denom += sum(trainMatrix[i])
-    #set_trace()
+    set_trace()
     p1Vect = np.log(p1Num/p1Denom)         #change to log()
     p0Vect = np.log(p0Num/p0Denom)        #change to log()
     return p0Vect,p1Vect,pAbusive
