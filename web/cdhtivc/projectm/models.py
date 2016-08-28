@@ -18,9 +18,9 @@ class User(models.Model):
     department=models.CharField(max_length=10,choices=departChoices,default='ts')
 
     
-    def __str__(self):
+    def __unicode__(self):
         #print type(self.userName)
-        return self.userName.encode('utf-8')
+        return self.userName
     
 
 class IndustryType(models.Model):#行业类型
@@ -58,8 +58,8 @@ class CompanyData(models.Model):
     industry=models.CharField(max_length=10,choices=industryChioce,default='xxjs')
     financialSituation=models.ForeignKey(FinancialSituation,default=None)
 
-    def __str__(self):
-        return self.companyName.encode('utf-8')
+    def __unicode__(self):
+        return self.companyName
 
 
 
