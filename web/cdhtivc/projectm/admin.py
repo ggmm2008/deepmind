@@ -4,7 +4,7 @@
 #+==============================
 
 from django.contrib import admin
-from .models import CompanyData,User,IndustryType,FinancialSituation
+from .models import CompanyData,User,IndustryType
 # Register your models here.
 
 class CompanyDataAdmin(admin.ModelAdmin):
@@ -18,4 +18,4 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(CompanyData)
 admin.site.register(User,UserAdmin)
 admin.site.register(IndustryType)
-admin.site.register(FinancialSituation)
+

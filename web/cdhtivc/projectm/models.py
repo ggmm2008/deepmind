@@ -28,21 +28,21 @@ class IndustryType(models.Model):#行业类型
     industryDescibe=models.CharField(max_length=20)
 
 
-
+'''
 class FinancialSituation(models.Model):#财务状况
     indexChoices=[('income','销售收入'),('netProfit','净利润')]
     yearChoices=[('2015','2015年'),('2016','2016年')]
-    companyName=models.ForeignKey('CompanyData')
+    #companyName=models.ForeignKey('CompanyData')
     financialIndex=models.CharField(max_length=10,choices=indexChoices,default='income')
     yearIndex=models.CharField(max_length=4,choices=yearChoices,default='2015')
     financialData=models.FloatField(default=None)
-
+'''
 
 
 class CompanyData(models.Model):
     industryChioce=[('xxjs','信息技术'),('swzy','生物制药')]
     natureChioce=[('yx','有限公司'),('gf','股份有限公司')]
-    companyId=models.AutoField(primary_key=True,default=1)#编号
+    #companyId=models.AutoField(primary_key=True,default=1)#编号
     companyCreateDate=models.DateField(default=None)#入库日期
     companyUpdateDate=models.DateTimeField(default=None)#更新日期
     companyName=models.CharField(max_length=200)#公司名称
@@ -56,7 +56,7 @@ class CompanyData(models.Model):
     companyAbstract=models.TextField()#公司基本情况
     user=models.ForeignKey(User,default=None)
     industry=models.CharField(max_length=10,choices=industryChioce,default='xxjs')
-    financialSituation=models.ForeignKey(FinancialSituation,default=None)
+    #financialSituation=models.ForeignKey(FinancialSituation,default=None)
 
     def __unicode__(self):
         return self.companyName
