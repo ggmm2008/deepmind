@@ -1,9 +1,2 @@
-{% if CompanyDataList %}
-    <ul>
-    {% for company in CompanyDataList %}
-        <li><a href="{% url 'projectm:detail' company.id%}">{{company.companyName}}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+index
+用户ID：{{request.session.get(userId,default=None)}}

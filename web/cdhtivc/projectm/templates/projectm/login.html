@@ -1,0 +1,11 @@
+
+<p>验证信息</p>
+<form action="/projectm/login/" method="post">
+ 
+   {% csrf_token %}
+    {{ form }}
+   
+    <p>info: {{request.user}}:{{errorStr}}</p>
+     <input type="submit" value="Submit" />
+</form>
+ 
