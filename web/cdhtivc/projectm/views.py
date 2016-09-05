@@ -16,100 +16,41 @@ import json
 from django.http import JsonResponse
 
 # Create your views here.
+
+
 '''
-def index(request):
-    CompanyDataList=CompanyData.objects.order_by('id')
-    #output=','.join([p.companyName for p in CompanyDataList])
-    context={'CompanyDataList':CompanyDataList}
-    return render(request,'projectm/index.html',context)
-
-def detail(request,id):
-    try:
-        companys=CompanyData.objects.get(pk=id)
-    except CompanyData.DoesNotExist:
-        raise Http404('该公司未入库')
-    return render(request,'projectm/detail.html',{'companys':companys})
-'''
-
-
 class IndexView(generic.ListView):
     template_name='projectm/index.html'
     context_object_name='CompanyDataList'
-    tt='kkkk'
+
     
     def get_queryset(self):
         return CompanyData.objects.order_by('id')
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['userId'] = request.session['userId']
+        return context    
+'''
 
 class DetailView(generic.DeleteView):
     model=CompanyData
     template_name='projectm/detail.html'
 
 
-def get_name(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = CompanyDataForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/thanks/')
+def index(request):
+    context={'userId':request.session['userId']}
+    #获取本周入库详细信息
 
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = CompanyDataForm()
+    #获取累计本月累计入库
 
-    return render(request, 'projectm/name.html', {'form': form})
+    #获取累计本季度入库
 
-
-def test(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = CompanyDataForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/thanks/')
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = CompanyDataForm()
-
-    return render(request, 'projectm/test.html', {'form': form})
-
-
-
-
- 
-def ajax_list(request):
-    a = range(100)
-    return JsonResponse(a, safe=False)
- 
-def ajax_dict(request):
-    name_dict = {'twz': 'Love python and Django', 'zqxt': 'I am teaching Django'}
-    return JsonResponse(name_dict)
-
-def add(request):
-    a = request.GET['a']
-    print a
-    #b = request.GET['b']
-    #a = int(a)
-   # b = int(b)
-    s=list(CompanyData.objects.filter(companyName__contains=a))
-    print type(s)
-    print s
-    if len(s)>0:
-        str1=s
-    else:
-        str1="项目未入库！"
+    #获取累计本年入库
+    return render(request, 'projectm/index.html',{'context':context})
     
 
-    return HttpResponse(str1)
+
 
 def check(request):
     '''
@@ -132,10 +73,8 @@ def check(request):
 
 def login(request):
     print request.user
-    errorStr='' 
-         
-    if request.method=='POST':        
-        print "post"       
+    errorStr=''         
+    if request.method=='POST':           
         #print  form.cleaned_data
         form = LoginForm(request.POST)
         if form.is_valid():            
@@ -147,7 +86,7 @@ def login(request):
                 print userInfo.userName,userInfo.passWord
                 if userInfo.passWord==passwd:
                     #存入session
-                    request.session[userId]=userInfo.id
+                    request.session['userId']=userInfo.id
                     return HttpResponseRedirect('/projectm/')#登录成功，跳转
             except User.DoesNotExist:
                 errorStr='user/password error!'  
@@ -160,3 +99,5 @@ def login(request):
 
 def error(request):
      return render(request, 'projectm/error.html')
+
+
