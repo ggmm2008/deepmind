@@ -1,2 +1,22 @@
+
 index
 用户ID：{{context.userId}}
+<br>
+累计入库：{{context.countAll}}
+用户入库：{{context.userCount}}
+<br>
+本周入库:<br>
+{% for company in context.listByWeek%}
+    公司：<a href="{{company.id}}" target="_blank" >{{company.companyName}}</a><br>
+    投资经理：{{company.user.userName}}<br>
+{% endfor%}
+
+
+<br>
+{{companyInfo}}
+
+<form action="/projectm/logout/" method="post">
+  {% csrf_token %}
+     <input type="submit" value="logout" />
+</form>
+ 

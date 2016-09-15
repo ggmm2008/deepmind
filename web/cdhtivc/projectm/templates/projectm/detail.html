@@ -1,4 +1,7 @@
-{{companydata.companyName}}
-{{companydata.companyCreateDate}}
-{{form.your_name}}
-						
+
+
+<form action="/projectm/{{context.companyId}}/update/" method="post">
+  {% csrf_token %}
+    {{form.as_p}}    
+     <input type="submit" value="update" />
+</form>
