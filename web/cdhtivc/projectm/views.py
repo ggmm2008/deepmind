@@ -64,17 +64,19 @@ class CompanyDetailView(generic.DetailView):
 
 
 
-
-
-
-def detail(request,companyId):
+def detail(request,companyId=0000):
     context={'companyId':companyId}
     if check(request):#session检查
         try:
-            company=CompanyData.objects.get(id=companyId)
-            form=CompanyDataForm(instance=company)            
+            if companyId!=0000:
+                company=CompanyData.objects.get(id=companyId)#已有数据
+                form=CompanyDataForm(instance=company)
+            else:
+                print '000000000000000'
+                company=CompanyData(user=request.session.get('userName',default=None))#新建记录
+                form=CompanyDataForm(instance=company)
         except CompanyData.DoesNotExist:
-            return  HttpResponse("未查到数据！")
+            return  HttpResponse("未查到数据！")            
     else:
         return HttpResponseRedirect('/projectm/login/')#验证失败
     return render(request, 'projectm/detail.html',{'form':form,'context':context})    
@@ -86,7 +88,7 @@ def index(request):
         context={'userId':request.session.get('userId',default=None)}
         #累计信息
         countAll=CompanyData.objects.count
-        userCount=CompanyData.objects.filter(user_id=context['userId']).count()
+        userCount=CompanyData.objects.filter(user=context['userId']).count()
         context['countAll']=countAll
         context['userCount']=userCount
         #获取本周入库
@@ -105,7 +107,7 @@ def check(request):#session检查
     userId=request.session.get('userId',default=None)
     print userId
     checkValue=bool
-    if userId<>None:
+    if userId!=None:
         print 'userId:',userId
         checkValue=True
 
@@ -131,6 +133,7 @@ def login(request):
                 if userInfo.passWord==passwd:
                     #存入session
                     request.session['userId']=userInfo.id
+                    request.session['userName']=userInfo.userName
                     return HttpResponseRedirect('/projectm/')#登录成功，跳转
             except User.DoesNotExist:
                 errorStr='user/password error!'  
@@ -148,36 +151,30 @@ def logout(request):
         pass
     return  HttpResponse("You're logged out.")
 
-class CompanyDataUpdate(UpdateView):
-    form_class=CompanyDataForm
-    model=CompanyData
-    fields='__all__'
-    template_name_suffix='detail.html'
 
     
-    def get_queryset(self):
-        print 'lkkk'
-        queryset = super(CompanyDataUpdate, self).get_queryset()
-            
-        return queryset
-    
-def updateView(request,companyId):
-    print "companyId:",companyId
-    resStr='error'
-    if request.method=='POST' and companyId!='':      
-        ''''
-        for key in request.POST:
-            print key.encode("utf-8")
-            valuelist = request.POST.getlist(key)
-            print valuelist
-        '''
-        tempObject=CompanyData.objects.get(pk=companyId)
-        form = CompanyDataForm(request.POST,instance=tempObject)
-        form.save()
-        resStr='seucess'
-    return  HttpResponse("You're "+resStr)
+def updateView(request,companyId=0):    
+    if check(request):#session检查
+        context={'companyId':companyId}
+        resStr='error'
+        if request.method=='POST' and int(companyId)!=0: #更新数据     
+            tempObject=CompanyData.objects.get(pk=companyId)
+            form = CompanyDataForm(request.POST,instance=tempObject)
+            form.save()
+            resStr='update seucess'
+        
+        else:#创建新记录
+            print "new"
+            form = CompanyDataForm(request.POST)
+            if form.is_valid():
+                instances=form.save()
+                resStr='create new data'           
+            else:
+                return render(request, 'projectm/detail.html',{'form':form,'context':context})
+        return  HttpResponse("You're "+resStr)
+    else:
+        return HttpResponseRedirect('/projectm/login/')#验证失败
+    return render(request, 'projectm/index.html',{'context':context})
 
-def error(request):
-     return render(request, 'projectm/error.html')
 
 
