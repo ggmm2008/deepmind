@@ -72,9 +72,7 @@ def detail(request,companyId):
     if check(request):#session检查
         try:
             company=CompanyData.objects.get(id=companyId)
-            form=CompanyDataForm(instance=company)
-            if request.method=='POST':
-                 pass
+            form=CompanyDataForm(instance=company)            
         except CompanyData.DoesNotExist:
             return  HttpResponse("未查到数据！")
     else:
@@ -163,7 +161,21 @@ class CompanyDataUpdate(UpdateView):
             
         return queryset
     
-
+def updateView(request,companyId):
+    print "companyId:",companyId
+    resStr='error'
+    if request.method=='POST' and companyId!='':      
+        ''''
+        for key in request.POST:
+            print key.encode("utf-8")
+            valuelist = request.POST.getlist(key)
+            print valuelist
+        '''
+        tempObject=CompanyData.objects.get(pk=companyId)
+        form = CompanyDataForm(request.POST,instance=tempObject)
+        form.save()
+        resStr='seucess'
+    return  HttpResponse("You're "+resStr)
 
 def error(request):
      return render(request, 'projectm/error.html')
