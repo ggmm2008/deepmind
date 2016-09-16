@@ -44,21 +44,30 @@ def detail(request,companyId=0000):
 
 def index(request):
     context={}
-    if check(request):#session检查
-        context={'userId':request.session.get('userId',default=None)}
+    if check(request):#session检查        
+        context['userId']=request.session.get('userId',default=None)
+        context['userName']=request.session.get('userName',default=None)
         #累计信息
         countAll=CompanyData.objects.count
         userCount=CompanyData.objects.filter(user=context['userId']).count()
         context['countAll']=countAll
         context['userCount']=userCount
-        #获取本周入库
-        #获取上周时间
-        d = datetime.datetime.now()
-        dateResult=month_get(d)
-        listByWeek=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end']))#<=2016-09-05
-        #获取累计本季度入库
-        context['listByWeek']=listByWeek
-        #获取累计本年入库
+        if request.method=='POST':#如果是查询            
+            searchStr=request.POST['searchStr']
+            #print 'searchStr:',searchStr
+            companys=CompanyData.objects.filter(companyName__contains=searchStr)
+            context['companys']=companys
+            #searchStr=''
+        else:#第一次进入            
+            #获取本周入库
+            #获取上周时间
+            d = datetime.datetime.now()
+            dateResult=month_get(d)
+            companys=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end']))#<=2016-09-05
+            #获取累计本季度入库
+            context['companys']=companys
+            #获取累计本年入库
+       
     else:
         return HttpResponseRedirect('/projectm/login/')#验证失败
     return render(request, 'projectm/index.html',{'context':context})
@@ -73,7 +82,7 @@ def week_get(d):#获取上周日期区间
     dayfrom = dayto - sixdays
     date_from = datetime.datetime(dayfrom.year, dayfrom.month, dayfrom.day, 0, 0, 0)
     date_to = datetime.datetime(dayto.year, dayto.month, dayto.day, 23, 59, 59)
-    print '---'.join([str(date_from), str(date_to)])
+    #print '---'.join([str(date_from), str(date_to)])
     result={'date_from':date_from,'date_end':date_to}
     return result
 
@@ -82,7 +91,7 @@ def month_get(d):#获取上月日期区间
     dayto = d - dayscount
     date_from = datetime.datetime(dayto.year, dayto.month, 1, 0, 0, 0)
     date_to = datetime.datetime(dayto.year, dayto.month, dayto.day, 23, 59, 59)
-    print '---'.join([str(date_from), str(date_to)])
+    #print '---'.join([str(date_from), str(date_to)])
     result={'date_from':date_from,'date_end':date_to}
     return result
 
@@ -132,7 +141,7 @@ def logout(request):
         del request.session['userId']
     except KeyError:
         pass
-    return  HttpResponse("You're logged out.")
+    return  HttpResponse("You're logged out.close this windows")
 
 
     
