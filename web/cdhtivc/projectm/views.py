@@ -17,49 +17,9 @@ from django.http import JsonResponse
 from django.db.models import Count
 from django.views.generic.edit import UpdateView
 
+import datetime
 
 # Create your views here.
-
-
-'''
-class IndexView(generic.ListView):
-    template_name='projectm/index.html'
-    context_object_name='CompanyDataList'
-
-    
-    def get_queryset(self):
-        return CompanyData.objects.order_by('id')
-
-    def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
-        context['userId'] = request.session['userId']
-        return context    
-
-
-class CompanyDetailView(generic.DetailView):
-    model=CompanyData
-    template_name='projectm/detail.html'
-    
-    
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        print 'kkkk'
-        context = super(CompanyDetailView, self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['companyInfo'] = CompanyData.objects.filter(companyData__id=self.object.name)
-        print self.object.name
-        return context
-
-    def get_object(self,queryset=None):
-        # Call the superclass
-        obj = super(CompanyDetailView, self).get_object()
-        print obj
-        # Record the last accessed date
-        #object.last_accessed = timezone.now()
-        
-        # Return the object
-        return obj
-'''
 
 
 
@@ -92,7 +52,10 @@ def index(request):
         context['countAll']=countAll
         context['userCount']=userCount
         #获取本周入库
-        listByWeek=CompanyData.objects.filter(companyCreateDate__lte='2016-09-05')#<=2016-09-05
+        #获取上周时间
+        d = datetime.datetime.now()
+        dateResult=month_get(d)
+        listByWeek=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end']))#<=2016-09-05
         #获取累计本季度入库
         context['listByWeek']=listByWeek
         #获取累计本年入库
@@ -102,6 +65,26 @@ def index(request):
     
 
 
+
+def week_get(d):#获取上周日期区间    
+    dayscount = datetime.timedelta(days=d.isoweekday())
+    dayto = d - dayscount
+    sixdays = datetime.timedelta(days=6)
+    dayfrom = dayto - sixdays
+    date_from = datetime.datetime(dayfrom.year, dayfrom.month, dayfrom.day, 0, 0, 0)
+    date_to = datetime.datetime(dayto.year, dayto.month, dayto.day, 23, 59, 59)
+    print '---'.join([str(date_from), str(date_to)])
+    result={'date_from':date_from,'date_end':date_to}
+    return result
+
+def month_get(d):#获取上月日期区间
+    dayscount = datetime.timedelta(days=d.day)
+    dayto = d - dayscount
+    date_from = datetime.datetime(dayto.year, dayto.month, 1, 0, 0, 0)
+    date_to = datetime.datetime(dayto.year, dayto.month, dayto.day, 23, 59, 59)
+    print '---'.join([str(date_from), str(date_to)])
+    result={'date_from':date_from,'date_end':date_to}
+    return result
 
 def check(request):#session检查
     userId=request.session.get('userId',default=None)

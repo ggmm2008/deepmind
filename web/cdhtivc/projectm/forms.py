@@ -18,5 +18,5 @@ class CompanyDataForm(ModelForm):
 
 
 class LoginForm(forms.Form):
-    user=forms.CharField(label='userName',max_length=20,strip=True)
+    user=forms.CharField(label='userName',max_length=120,strip=True)
     password=forms.CharField(label='password',max_length=20,strip=True,widget=forms.PasswordInput)

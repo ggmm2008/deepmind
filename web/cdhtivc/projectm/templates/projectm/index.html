@@ -1,4 +1,5 @@
 
+
 index
 用户ID：{{context.userId}}
 <br>
@@ -8,7 +9,7 @@ index
 本周入库:<br>
 {% for company in context.listByWeek%}
     公司：<a href="{{company.id}}" target="_blank" >{{company.companyName}}</a><br>
-    投资经理：{{company.user.userName}}<br>
+    投资经理：{{company.user}}<br>
 {% endfor%}
 
 
