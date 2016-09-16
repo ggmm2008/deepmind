@@ -45,6 +45,7 @@ def detail(request,companyId=0000):
 def index(request):
     context={}
     if check(request):#session检查        
+        context['totalFileds']=tFileds()
         context['userId']=request.session.get('userId',default=None)
         context['userName']=request.session.get('userName',default=None)
         #累计信息
@@ -52,18 +53,22 @@ def index(request):
         userCount=CompanyData.objects.filter(user=context['userId']).count()
         context['countAll']=countAll
         context['userCount']=userCount
+        d = datetime.datetime.now()
+        dateResult=month_get(d)        
         if request.method=='POST':#如果是查询            
             searchStr=request.POST['searchStr']
             #print 'searchStr:',searchStr
             companys=CompanyData.objects.filter(companyName__contains=searchStr)
+            companysCount=CompanyData.objects.filter(companyName__contains=searchStr).count()            
+            context['companysCount']=companysCount
             context['companys']=companys
             #searchStr=''
         else:#第一次进入            
             #获取本周入库
-            #获取上周时间
-            d = datetime.datetime.now()
-            dateResult=month_get(d)
+            #获取上周时间            
             companys=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end']))#<=2016-09-05
+            companysCount=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end'])).count()
+            context['companysCount']=companysCount
             #获取累计本季度入库
             context['companys']=companys
             #获取累计本年入库
@@ -72,6 +77,20 @@ def index(request):
         return HttpResponseRedirect('/projectm/login/')#验证失败
     return render(request, 'projectm/index.html',{'context':context})
     
+def tFileds():#汇总信息字段
+    totalFileds={'merger':uncode2Str(CompanyData.objects.values_list('industry').distinct())}
+    totalFileds['companyFollowSuggest']=uncode2Str(CompanyData.objects.values_list('companyFollowSuggest').distinct())
+    totalFileds['user']=uncode2Str(CompanyData.objects.values_list('user').distinct())
+    #print totalFileds
+    return totalFileds
+
+
+def uncode2Str(str):#字符转换
+    result=[]
+    for i in  range(len(str)):
+        #print str[i][0]
+        result.append(str[i][0].encode('utf-8'))
+    return result
 
 
 
