@@ -94,7 +94,7 @@
 				{% for key,value in context.tCount.industry.iteritems%}                                                        
                                                                  
 				<li>
-					<a href="#">
+					<a href="javascript:void()">
 						{{key}}<span class="flr">{{value}}</span>
 					</a>
 				</li>
@@ -111,7 +111,7 @@
 				{% for key,value in context.tCount.companyFollowSuggest.iteritems%}                                                        
                                                                  
 				<li>
-					<a href="#">
+					<a href="javascript:void()">
 						{{key}}<span class="flr">{{value}}</span>
 					</a>
 				</li>
@@ -129,7 +129,7 @@
 				{% for key,value in context.tCount.user.iteritems%}                                                        
                                                                  
 				<li>
-					<a href="#">
+					<a href="javascript:void()">
 						{{key}}<span class="flr">{{value}}</span>
 					</a>
 				</li>
@@ -153,36 +153,45 @@
 					<li class="auto">
 						<span class="title">行业分类</span>
 						<div class="keys">
-														<a class='on' href="/projectm/">全部</a>
+														
 																{% for t in context.totalFileds.industry%}
-                                                                     <a  href="/projectm/industry?scope={{t}}">{{t}}</a>
+                                                                     <a  href="/projectm/total/industry/{{t}}/">{{t}}</a>
                                                                 {% endfor %} 
                                           
 					</div>
 					</li>
 
-					
-					<li class="auto">
+					<li>
+						<span class="title">入库日期</span>
+						<div class="keys">
+														
+																	{% for t in context.totalFileds.dateLit%}
+                                                                     <a  href="/projectm/total/dateLti/{{t}}/">{{t}}</a>
+                                                                    {% endfor %}    
+                                                                    
+						</div>
+					</li>
+					<li>
 						<span class="title">跟进状态</span>
 						<div class="keys">
-														<a class='on' href="projectm/follow/">全部</a>
+														
 																	{% for t in context.totalFileds.companyFollowSuggest%}
-                                                                     <a  href="projectm/follow?scope={{t}}">{{t}}</a>
+                                                                     <a  href="/projectm/total/follow/{{t}}/">{{t}}</a>
                                                                     {% endfor %}                                                                     
                                                                     
 					</div>
 					</li>
 					<li>
 						<span class="title">投资经理</span>
-						<div class="keys">
-														<a class='on' href="projectm/user/">全部</a>
+						<div class="keys">														
 																	{% for t in context.totalFileds.user%}
-                                                                     <a  href="projectm/follow?scope={{t}}">{{t}}</a>
+                                                                     <a  href="/projectm/total/user/{{t}}/">{{t}}</a>
                                                                     {% endfor %}    
                                                                     
 						</div>
 					</li>
 		
+
 
 				</ul>
 				<div class="rowbtn lower filter-more tac"><a><span class="arrow">▾</span> <span class="t-small">全部筛选项</span></a></div>
@@ -226,7 +235,7 @@
 								</i>							
 								<i class="cell maincell">
 									<p class="title">
-										<a href="{{company.id}}" target="_blank" >
+										<a href="/projectm/{{company.id}}" target="_blank" >
 										<span>{{company.companyName}}</span>
 										</a>
 									</p>

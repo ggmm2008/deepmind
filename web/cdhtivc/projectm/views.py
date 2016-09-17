@@ -42,7 +42,8 @@ def detail(request,companyId=0000):
     return render(request, 'projectm/detail.html',{'form':form,'context':context})    
 
 
-def index(request):
+def index(request,key='',value=''):
+    print key,value
     context={}
     if check(request):#session检查        
         context['totalFileds']=tFileds()#统计字段
@@ -55,8 +56,8 @@ def index(request):
         context['countAll']=countAll
         context['userCount']=userCount
         d = datetime.datetime.now()
-        dateResult=month_get(d)        
-        if request.method=='POST':#如果是查询            
+        
+        if request.method=='POST':#入库查询            
             searchStr=request.POST['searchStr']
             #print 'searchStr:',searchStr
             companys=CompanyData.objects.filter(companyName__contains=searchStr)
@@ -64,16 +65,42 @@ def index(request):
             context['companysCount']=companysCount
             context['companys']=companys
             #searchStr=''
-        else:#第一次进入            
-            #获取本周入库
-            #获取上周时间            
-            companys=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end']))#<=2016-09-05
-            companysCount=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end'])).count()
-            context['companysCount']=companysCount
-            #获取累计本季度入库
-            context['companys']=companys
+        else:          
             
-            #获取累计本年入库
+            #时间查询            
+            if key=='dateLti' or key=='':
+                dateResult=week_get(d)               
+                if value.encode('utf-8')=='上周':
+                    dateResult=week_get(d)                     
+                if value.encode('utf-8')=='上月':
+                    dateResult=month_get(d)  
+                print dateResult
+                companys=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end']))
+                companysCount=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end'])).count()
+                context['companysCount']=companysCount
+                #获取累计本季度入库
+                context['companys']=companys
+            #行业查询 
+            if key=='industry':
+                companys=CompanyData.objects.filter(industry__contains=value.encode('utf-8'))
+                companysCount=CompanyData.objects.filter(industry__contains=value.encode('utf-8')).count()            
+                context['companysCount']=companysCount
+                context['companys']=companys
+            
+            #跟进状态查询 
+            if key=='follow':
+                companys=CompanyData.objects.filter(companyFollowSuggest__contains=value.encode('utf-8'))
+                companysCount=CompanyData.objects.filter(companyFollowSuggest__contains=value.encode('utf-8')).count()            
+                context['companysCount']=companysCount
+                context['companys']=companys
+            
+            #投资经理查询 
+            if key=='user':
+                companys=CompanyData.objects.filter(user__contains=value.encode('utf-8'))
+                companysCount=CompanyData.objects.filter(user__contains=value.encode('utf-8')).count()            
+                context['companysCount']=companysCount
+                context['companys']=companys
+
        
     else:
         return HttpResponseRedirect('/projectm/login/')#验证失败
@@ -83,6 +110,7 @@ def tFileds():#汇总信息字段
     totalFileds={'industry':uncode2Str(CompanyData.objects.values_list('industry').distinct())}
     totalFileds['companyFollowSuggest']=uncode2Str(CompanyData.objects.values_list('companyFollowSuggest').distinct())
     totalFileds['user']=uncode2Str(CompanyData.objects.values_list('user').distinct())
+    totalFileds['dateLit']=['上周','上月','上季度']
     #print totalFileds
     return totalFileds
 
@@ -155,6 +183,7 @@ def check(request):#session检查
 
 def login(request):
     print request.user
+   
     errorStr=''         
     if request.method=='POST':           
         #print  form.cleaned_data

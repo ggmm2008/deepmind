@@ -6,8 +6,10 @@
 from django.conf.urls import url
 from . import views
 
+print 'kkk'
 urlpatterns=[
     url(r'^$',views.index,name='index'),
+    url(u'^total/(?P<key>\w*)/(?P<value>[\u4e00-\u9fa5]+)/$',views.index,name='totalindex'),
     url(r'^new/$', views.detail,name='detail'),
     url(r'^(?P<companyId>[0-9]+)/$',views.detail,name='detail'),
     url(r'^(?P<companyId>[0-9]+)/update/$',views.updateView,name='updateView'),
