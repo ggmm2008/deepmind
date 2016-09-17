@@ -45,7 +45,8 @@ def detail(request,companyId=0000):
 def index(request):
     context={}
     if check(request):#session检查        
-        context['totalFileds']=tFileds()
+        context['totalFileds']=tFileds()#统计字段
+        context['tCount']=tCount(context['totalFileds'])#统计信息汇总
         context['userId']=request.session.get('userId',default=None)
         context['userName']=request.session.get('userName',default=None)
         #累计信息
@@ -71,6 +72,7 @@ def index(request):
             context['companysCount']=companysCount
             #获取累计本季度入库
             context['companys']=companys
+            
             #获取累计本年入库
        
     else:
@@ -78,11 +80,34 @@ def index(request):
     return render(request, 'projectm/index.html',{'context':context})
     
 def tFileds():#汇总信息字段
-    totalFileds={'merger':uncode2Str(CompanyData.objects.values_list('industry').distinct())}
+    totalFileds={'industry':uncode2Str(CompanyData.objects.values_list('industry').distinct())}
     totalFileds['companyFollowSuggest']=uncode2Str(CompanyData.objects.values_list('companyFollowSuggest').distinct())
     totalFileds['user']=uncode2Str(CompanyData.objects.values_list('user').distinct())
     #print totalFileds
     return totalFileds
+
+def tCount(totalFileds): #汇总信息计算      
+    tCountResult={}    
+    #print totalFileds
+    for tmp in totalFileds.keys():
+        tCountResult[tmp]={}
+        #print 'tmp:',tmp
+        if tmp=='industry':
+        #industry 汇总
+            for i in range(len(totalFileds[tmp])):                
+                tCountResult[tmp][totalFileds[tmp][i].decode('utf-8')]=CompanyData.objects.filter(industry__contains=totalFileds[tmp][i]).count()                
+            
+        if tmp=='companyFollowSuggest':
+        #companyFollowSuggest 汇总
+            for i in range(len(totalFileds[tmp])):
+                tCountResult[tmp][totalFileds[tmp][i].decode('utf-8')]=CompanyData.objects.filter(companyFollowSuggest__contains=totalFileds[tmp][i]).count()
+           
+        if tmp=='user':
+        #user 汇总
+            for i in range(len(totalFileds[tmp])):
+                tCountResult[tmp][totalFileds[tmp][i].decode('utf-8')]=CompanyData.objects.filter(user__contains=totalFileds[tmp][i]).count()   
+    #print 'tCountResult',tCountResult
+    return tCountResult
 
 
 def uncode2Str(str):#字符转换

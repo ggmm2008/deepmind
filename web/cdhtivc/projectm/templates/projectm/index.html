@@ -47,32 +47,7 @@
 									</li>
 									
 								</ul>
-								<!-- <div class="fll mobile-none">
-									<style type="text/css">
-										.mainnav-ad{
-											padding: 0px 10px;
-											border-radius: 3px; 
-											position: relative;
-											background-color: #f60;
-											margin-left: 18px;
-											display: inline-block;
-											height: 24px;
-											line-height: 24px;
-										}
-										.mainnav-ad:before{
-											position: absolute;
-											left: -10px;
-											content: '◀';
-											color: #f60;
-											height: 20px;
-										}
-										.mainnav-ad{
-											color: #fff !important;
-											font-weight: bold;
-										}
-									</style>
-									<a class="mainnav-ad" href="https://www.itjuzi.com/joinus" target="_blank">我们正在招聘</a>
-								</div> -->
+	
 								<div class="usernav">
 									<div class="usersearch">
 										<form action="/projectm/" method="post">
@@ -107,121 +82,64 @@
 						</form>
 					</div>
 				</div>
-						<div class="boxed">
+	<div class="boxed">
 	<div class="sidebar right">
 
 
-		<div class="sec">
-	<div class="titlebar"><span>最近发生投资的机构</span></div>
-	<div>
-		<div class="pad">
-			<ul class="list-simple-withpic width-limited">
-															<li>
-							<div class="left">
-								<a href="https://www.itjuzi.com/investfirm/44"><span class="incicon"><img src="https://cdn.itjuzi.com/images/3b4c8949b70e0a863ce279dcf79b36a9.jpg?imageView2/0/w/58/q/100"></span></a>
-							</div>
-							<div class="right">
-								<p class="title"><a href="https://www.itjuzi.com/investfirm/44">新电投资SingTel Innov8</a></p>
-								<p class="des">最近投资：<a href="https://www.itjuzi.com/company/44472">Cato Networks</a></p>
-							</div>
-						</li>
-											<li>
-							<div class="left">
-								<a href="https://www.itjuzi.com/investfirm/651"><span class="incicon"><img src="https://cdn.itjuzi.com/images/e1d5ca50d7fd543066ad787e6d70d8f2.jpg?imageView2/0/w/58/q/100"></span></a>
-							</div>
-							<div class="right">
-								<p class="title"><a href="https://www.itjuzi.com/investfirm/651">Riverwood Capital</a></p>
-								<p class="des">最近投资：<a href="https://www.itjuzi.com/company/44492">Industrious</a></p>
-							</div>
-						</li>
-											<li>
-							<div class="left">
-								<a href="https://www.itjuzi.com/investfirm/438"><span class="incicon"><img src="https://cdn.itjuzi.com/images/3a30a481f6748d0fc801e17df87019a5.png?imageView2/0/w/58/q/100"></span></a>
-							</div>
-							<div class="right">
-								<p class="title"><a href="https://www.itjuzi.com/investfirm/438">Marker llc</a></p>
-								<p class="des">最近投资：<a href="https://www.itjuzi.com/company/14104">Sourcery</a></p>
-							</div>
-						</li>
-											<li>
-							<div class="left">
-								<a href="https://www.itjuzi.com/investfirm/22"><span class="incicon"><img src="https://cdn.itjuzi.com/images/669c1a3ea9353036d7133b931be1b4d1.jpg?imageView2/0/w/58/q/100"></span></a>
-							</div>
-							<div class="right">
-								<p class="title"><a href="https://www.itjuzi.com/investfirm/22">险峰长青(险峰华兴)</a></p>
-								<p class="des">最近投资：<a href="https://www.itjuzi.com/company/44499">壹米滴答</a></p>
-							</div>
-						</li>
-											<li>
-							<div class="left">
-								<a href="https://www.itjuzi.com/investfirm/362"><span class="incicon"><img src="https://cdn.itjuzi.com/images/3c76a83cb299450cb35472951cffc2d2.png?imageView2/0/w/58/q/100"></span></a>
-							</div>
-							<div class="right">
-								<p class="title"><a href="https://www.itjuzi.com/investfirm/362">Wellington Management</a></p>
-								<p class="des">最近投资：<a href="https://www.itjuzi.com/company/44494">Defy Media</a></p>
-							</div>
-						</li>
-												</ul>
-		</div>
-	</div>
-</div>
-		<div class="sec">
-	<div class="titlebar"><span>活跃机构 TOP10</span><a href="https://www.itjuzi.com/investfirm" class="right-btn flr" target="_blank">所有</a></div>
+	
+	<div class="sec">
+	<div class="titlebar"><span>行业统计</span><a href="https://www.itjuzi.com/investfirm" class="right-btn flr" target="_blank">{{context.countAll}}</a></div>
 	  <div>
 		<ul class="list-link-lite top10">
-							<li>
-					<a href="https://www.itjuzi.com/investfirm/2">
-						IDG资本 <span class="flr">519</span>
+				{% for key,value in context.tCount.industry.iteritems%}                                                        
+                                                                 
+				<li>
+					<a href="#">
+						{{key}}<span class="flr">{{value}}</span>
 					</a>
 				</li>
-							<li>
-					<a href="https://www.itjuzi.com/investfirm/7">
-						经纬中国 <span class="flr">415</span>
+				{% endfor %}
+							
+				</ul>
+	 	 </div>
+	</div>
+
+	<div class="sec">
+	<div class="titlebar"><span>跟进状态统计</span><a href="https://www.itjuzi.com/investfirm" class="right-btn flr" target="_blank">{{context.countAll}}</a></div>
+	  <div>
+		<ul class="list-link-lite top10">
+				{% for key,value in context.tCount.companyFollowSuggest.iteritems%}                                                        
+                                                                 
+				<li>
+					<a href="#">
+						{{key}}<span class="flr">{{value}}</span>
 					</a>
 				</li>
-							<li>
-					<a href="https://www.itjuzi.com/investfirm/1">
-						红杉资本中国 <span class="flr">380</span>
+				{% endfor %}
+							
+				</ul>
+	 	 </div>
+	</div>
+
+
+	<div class="sec">
+	<div class="titlebar"><span>投资经理统计</span><a href="https://www.itjuzi.com/investfirm" class="right-btn flr" target="_blank">{{context.countAll}}</a></div>
+	  <div>
+		<ul class="list-link-lite top10">
+				{% for key,value in context.tCount.user.iteritems%}                                                        
+                                                                 
+				<li>
+					<a href="#">
+						{{key}}<span class="flr">{{value}}</span>
 					</a>
 				</li>
-							<li>
-					<a href="https://www.itjuzi.com/investfirm/4">
-						真格基金 <span class="flr">367</span>
-					</a>
-				</li>
-							<li>
-					<a href="https://www.itjuzi.com/investfirm/45">
-						腾讯 <span class="flr">300</span>
-					</a>
-				</li>
-							<li>
-					<a href="https://www.itjuzi.com/investfirm/3">
-						创新工场 <span class="flr">271</span>
-					</a>
-				</li>
-							<li>
-					<a href="https://www.itjuzi.com/investfirm/22">
-						险峰长青(险峰华兴) <span class="flr">245</span>
-					</a>
-				</li>
-							<li>
-					<a href="https://www.itjuzi.com/investfirm/17">
-						PreAngel <span class="flr">213</span>
-					</a>
-				</li>
-							<li>
-					<a href="https://www.itjuzi.com/investfirm/368">
-						Y Combinator-YC <span class="flr">182</span>
-					</a>
-				</li>
-							<li>
-					<a href="https://www.itjuzi.com/investfirm/72">
-						达晨创投 <span class="flr">169</span>
-					</a>
-				</li>
-					</ul>
-	  </div>
-</div>
+				{% endfor %}
+							
+				</ul>
+	 	 </div>
+	</div>
+
+
 	</div>
 
 	<div class="main">
@@ -235,9 +153,9 @@
 					<li class="auto">
 						<span class="title">行业分类</span>
 						<div class="keys">
-														<a class='on' href="projectm/merger/">全部</a>
-																{% for t in context.totalFileds.merger%}
-                                                                     <a  href="projectm/merger?scope={{t}}">{{t}}</a>
+														<a class='on' href="/projectm/">全部</a>
+																{% for t in context.totalFileds.industry%}
+                                                                     <a  href="/projectm/industry?scope={{t}}">{{t}}</a>
                                                                 {% endfor %} 
                                           
 					</div>
@@ -339,118 +257,26 @@
 		</div>
 	</div>
 </div>       
-			
-							<footer>
-					<div class="footer-info boxed"> 
-						<div class="colum">
-							<ul>
-								<li><b>关于</b></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/aboutus">关于IT桔子</a></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/contact">联系我们</a></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/joinus">加入我们</a></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/partners">合作伙伴</a></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/faq">FAQ</a></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/aboutus/app_policy">用户协议</a></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/aboutus/policy">隐私条款</a></li>
-							</ul>
-						</div>
-						<div class="colum">
-							<ul>
-								<li><b>发现</b></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/activity">活动</a></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/special/chollima">千里马俱乐部</a></li>
-								<li><a target="_blank" href="http://today.itjuzi.com">TODAY</a></li>
-								<li><a target="_blank" href="http://kdt.im/qDKYer">桔子商店</a></li>
-							</ul>
-						</div>
-						<div class="colum">
-							<ul>
-								<li><b>服务</b></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/special/dataservice">数据服务</a></li>
-								<li><a target="_blank" href="http://tobshe.com/">拓扑社</a></li>
-								<li><a target="_blank" href="http://weixin.itjuzi.com/web/">猎桔融资</a></li>
-								<li><a target="_blank" href="http://www.juzilab.com">桔子空间</a></li>
-								<li><a target="_blank" href="http://radar.itjuzi.com/">桔子雷达</a></li>
-								<li><a target="_blank" href="https://www.itjuzi.com/special/vie">VIE架构宝</a></li>
-							</ul>
-						</div>
-						<div class="colum">
-							<form action="//itjuzi.us11.list-manage.com/subscribe/post?u=6b3e3c5490060d631ec016134&amp;id=b05ed8edcd" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-								<ul>
-									<li><b>IT桔子周报订阅</b></li>
-									<li>跟踪每周创投动态</li>
-									<li class="block-footer-getinfo">
-										<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="name@email.com"/>
-										<button type="submit" class="jzbtn bg-c">订阅</button>
-									</li>
-									<li class="block-footer-iconlink">
-										<a href="http://weibo.com/itjuzi" target="_blank"><i class="fa fa-weibo"></i></a>
-										<a class="hoversub">
-											<i class="fa fa-weixin"></i>
-											<span class="subblock iconblock">
-												<img src="https://www.itjuzi.com/assets/front/images/photo/qrcode-juzi.png">
-											</span>
-										</a>
-										<a href="http://shang.qq.com/wpa/qunwpa?idkey=92942d527acf0d8f6f9cc438d51cce927aba1d7b1ee351def45ad4c9bd7cd086">
-											<i class="fa fa-qq"></i>
-										</a>
-										<a href="mailto:hello@itjuzi.com" target="_blank"><i class="fa fa-envelope-o"></i></a>
-									</li>
-								</ul>
-							</form>
-						</div>
-					</div>
+			</div>	
+
 					<div class="footer-sign">
 						<div class="boxed">
-							IT桔子 - IT互联网公司产品数据库及商业信息服务
-							<span class="flr copy"> © 2013-2016 itjuzi.com 京ICP备14026526号-2</span>
+							===发展才是硬道理===
+							<span class="flr copy"> © 2013-2016 power by 大羽飞鹤</span>
 						</div>
 					</div>
-				</footer>
-					</div>
+			
+	
 
-					<script>
-				window.site_url = 'https://www.itjuzi.com/';
-			</script>
 
 			<script src="https://cdn.itjuzi.com/assets/front/scripts/bst.js"></script>
 			<script src="https://cdn.itjuzi.com/assets/front/scripts/jquery.lazyload.js"></script>
-			<script>
-				$(function () {
-				   $("img.lazy").lazyload({
-						effect: "fadeIn"
-					});
-				});
-			</script>
+
 			<script src="https://cdn.itjuzi.com/assets/front/scripts/main.js?v=16"></script>
 			<!-- Uploadify -->
 			<script src="https://www.itjuzi.com/assets/common/uploadify/jquery.uploadify.min.js"></script>
 
-			
-			<!-- GA -->
-			<script>
-				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-				})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-				ga('create', 'UA-59006131-1', 'auto');
-				ga('send', 'pageview');
-			</script>
-			<div style="display:none">
-				<script>
-					var _hmt = _hmt || [];
-					(function() {
-					  var hm = document.createElement("script");
-					  hm.src = "//hm.baidu.com/hm.js?1c587ad486cdb6b962e94fc2002edf89";
-					  var s = document.getElementsByTagName("script")[0]; 
-					  s.parentNode.insertBefore(hm, s);
-					})();
-				</script>
-			</div>
-			<!-- GrowingIO -->
-			<script>
-				var _vds = _vds || [];(function(){ _vds.push(['setAccountId', 'eee5a46c52000d401f969f4535bdaa78']);(function() {var vds = document.createElement('script'); vds.type='text/javascript'; vds.async = true;vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(vds, s);})();})();
-			</script>
+
 			</body>
 </html>
