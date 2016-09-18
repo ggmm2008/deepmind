@@ -3,17 +3,19 @@
 #  
 #+==============================
 
-from django.forms import ModelForm,Form
+from django.forms import ModelForm,CharField,Form
 from django import forms
 from projectm.models import CompanyData
 
-class CompanyDataForm(ModelForm):
-    error_css_class='error'
-    required_css_class='required'
+class CompanyDataForm(ModelForm):  
+    
+    
     
     class Meta:
         model=CompanyData
-        fields = '__all__'
+        fields ='__all__'
+        
+
 
 
 

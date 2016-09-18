@@ -30,11 +30,14 @@ def detail(request,companyId=0000):
         try:
             if companyId!=0000:
                 company=CompanyData.objects.get(id=companyId)#已有数据
-                form=CompanyDataForm(instance=company)
+                company.companyUpdateDate=datetime.datetime.now()
+                form=CompanyDataForm(instance=company)                
             else:
-                print '000000000000000'
+                print " create new company"
                 company=CompanyData(user=request.session.get('userName',default=None))#新建记录
+                company.companyUpdateDate=datetime.datetime.now()
                 form=CompanyDataForm(instance=company)
+                
         except CompanyData.DoesNotExist:
             return  HttpResponse("未查到数据！")            
     else:
@@ -224,9 +227,14 @@ def updateView(request,companyId=0):
         resStr='error'
         if request.method=='POST' and int(companyId)!=0: #更新数据     
             tempObject=CompanyData.objects.get(pk=companyId)
+            #tempObject.companyUpdateDate=datetime.datetime.now()
             form = CompanyDataForm(request.POST,instance=tempObject)
-            form.save()
-            resStr='update seucess'
+            if form.is_valid():
+                form.save()
+                context['resStr']='update seucess'
+            else:
+                print form.errors
+                return render(request, 'projectm/detail.html',{'form':form,'context':context})
         
         else:#创建新记录
             print "new"
