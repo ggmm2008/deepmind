@@ -1,4 +1,6 @@
 
+
+
 <!doctype html>
 <html class="no-js juzi" lang="">
 			<head>
@@ -34,17 +36,14 @@
 					<div>
 						<div class="navbox">                
 							<div class="boxed">
-								<a class="logo fll" href="https://www.itjuzi.com/">
+								<a class="logo fll" href="/projectm/">
 									<h1 class="seeo">IT桔子</h1>
 								</a>
 								<ul class="mainnav">
 									<li class="tab on">
-										<a href="https://www.itjuzi.com/">首页</a>
+										<a href="/projectm/">首页</a>
 									</li>
-									<li class="tab hoversub withsub">
-										<a href="https://www.itjuzi.com/activity">活动</a>
-										
-									</li>
+								
 									
 								</ul>
 	
@@ -165,12 +164,23 @@
 						<span class="title">入库日期</span>
 						<div class="keys">
 														
-																	{% for t in context.totalFileds.dateLit%}
-                                                                     <a  href="/projectm/total/dateLti/{{t}}/">{{t}}</a>
+																	{% for k,v in context.totalFileds.dateLit.iteritems%}
+                                                                     <a  href="/projectm/total/dateLti/{{k}}/">{{k}}({{v}})</a>
                                                                     {% endfor %}    
                                                                     
 						</div>
 					</li>
+					
+					<li class="auto">
+						<span class="title">投资经理</span>
+						<div class="keys">														
+																	{% for t in context.totalFileds.user%}
+                                                                     <a  href="/projectm/total/user/{{t}}/">{{t}}</a>
+                                                                    {% endfor %}    
+                                                                    
+						</div>
+					</li>
+					
 					<li class="auto">
 						<span class="title">跟进状态</span>
 						<div class="keys">
@@ -181,15 +191,7 @@
                                                                     
 					</div>
 					</li>
-					<li class="auto">
-						<span class="title">投资经理</span>
-						<div class="keys">														
-																	{% for t in context.totalFileds.user%}
-                                                                     <a  href="/projectm/total/user/{{t}}/">{{t}}</a>
-                                                                    {% endfor %}    
-                                                                    
-						</div>
-					</li>
+
 		
 
 
@@ -261,29 +263,16 @@
 							</ul>
 				</div>
 
-				<!-- block 分页区 -->
-				<div> <div class="ui-pagechange for-sec-bottom"><a href="" class="on">1</a><a href="https://www.itjuzi.com/merger?page=2" data-ci-pagination-page="2">2</a><a href="https://www.itjuzi.com/merger?page=3" data-ci-pagination-page="3">3</a><a href="https://www.itjuzi.com/merger?page=4" data-ci-pagination-page="4">4</a><a href="https://www.itjuzi.com/merger?page=5" data-ci-pagination-page="5">5</a><a href="https://www.itjuzi.com/merger?page=6" data-ci-pagination-page="6">6</a><a href="https://www.itjuzi.com/merger?page=2" data-ci-pagination-page="2">下一页 &rarr;</a><a href="https://www.itjuzi.com/merger?page=99" data-ci-pagination-page="99">尾页 &raquo;</a></ul> </div> </div>			</div>
+						</div>
 		</div>
 	</div>
 </div>       
 			</div>	
 
-					<div class="footer-sign">
-						<div class="boxed">
-							===发展才是硬道理===
-							<span class="flr copy"> © 2013-2016 power by 大羽飞鹤</span>
-						</div>
-					</div>
+<script src="https://cdn.itjuzi.com/assets/front/scripts/main.js?v=16"></script>
 			
 	
 
-
-			<script src="https://cdn.itjuzi.com/assets/front/scripts/bst.js"></script>
-			<script src="https://cdn.itjuzi.com/assets/front/scripts/jquery.lazyload.js"></script>
-
-			<script src="https://cdn.itjuzi.com/assets/front/scripts/main.js?v=16"></script>
-			<!-- Uploadify -->
-			<script src="https://www.itjuzi.com/assets/common/uploadify/jquery.uploadify.min.js"></script>
 
 
 

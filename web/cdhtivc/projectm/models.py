@@ -41,7 +41,7 @@ class FinancialSituation(models.Model):#财务状况
 
 
 class CompanyData(models.Model):
-    industryChioce=[('xxjs','新一代信息技术'),('swzy','生物制药'),('jnhb','节能环保'),('zbzz','高端装备制造')]#行业类型
+    industryChioce=[('新一代信息技术','新一代信息技术'),('生物制药','生物制药'),('节能环保','节能环保'),('高端装备制造','高端装备制造')]#行业类型
     natureChioce=[('yx','有限公司'),('gf','股份有限公司'),('td','团队')]
     suggestChioce=[('一般关注','一般关注'),('重点关注','重点关注'),('暂缓项目','暂缓项目'),('立项','立项'),('已过会','已过会'),('已拨款','已拨款')]
     companyId=models.CharField("项目编号",max_length=8,default=None)#项目编号

@@ -18,6 +18,7 @@ from django.db.models import Count
 from django.views.generic.edit import UpdateView
 
 import datetime
+import calendar
 
 # Create your views here.
 
@@ -50,7 +51,8 @@ def index(request,key='',value=''):
     print key,value
     context={}
     if check(request):#session检查        
-        context['totalFileds']=tFileds()#统计字段
+        d = datetime.datetime.now()
+        context['totalFileds']=tFileds(d)#统计字段
         context['tCount']=tCount(context['totalFileds'])#统计信息汇总
         context['userId']=request.session.get('userId',default=None)
         context['userName']=request.session.get('userName',default=None)
@@ -59,7 +61,9 @@ def index(request,key='',value=''):
         userCount=CompanyData.objects.filter(user=context['userId']).count()
         context['countAll']=countAll
         context['userCount']=userCount
-        d = datetime.datetime.now()
+       
+        
+        
         
         if request.method=='POST':#入库查询            
             searchStr=request.POST['searchStr']
@@ -78,7 +82,11 @@ def index(request,key='',value=''):
                     dateResult=week_get(d)                     
                 if value.encode('utf-8')=='上月':
                     dateResult=month_get(d)  
-                print dateResult
+                if value.encode('utf-8')=='本周':
+                    dateResult=thisWeek_get(d)
+                if value.encode('utf-8')=='本月':
+                    dateResult=thisMonth_get(d)    
+                #print dateResult
                 companys=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end'])).order_by('-id')
                 companysCount=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end'])).count()
                 context['companysCount']=companysCount
@@ -110,11 +118,19 @@ def index(request,key='',value=''):
         return HttpResponseRedirect('/projectm/login/')#验证失败
     return render(request, 'projectm/index.html',{'context':context})
     
-def tFileds():#汇总信息字段
+def tFileds(d):#汇总信息字段
     totalFileds={'industry':uncode2Str(CompanyData.objects.values_list('industry').distinct())}
     totalFileds['companyFollowSuggest']=uncode2Str(CompanyData.objects.values_list('companyFollowSuggest').distinct())
     totalFileds['user']=uncode2Str(CompanyData.objects.values_list('user').distinct())
-    totalFileds['dateLit']=['上周','上月','上季度']
+    #获取日期区间
+    bz=thisWeek_get(d)['date_from'].strftime('%m/%d')+'--'+thisWeek_get(d)['date_end'].strftime('%m/%d')
+    sz=week_get(d)['date_from'].strftime('%m/%d')+'--'+week_get(d)['date_end'].strftime('%m/%d')
+    by=thisMonth_get(d)['date_from'].strftime('%m/%d')+'--'+thisMonth_get(d)['date_end'].strftime('%m/%d')
+    sy=month_get(d)['date_from'].strftime('%m/%d')+'--'+month_get(d)['date_end'].strftime('%m/%d')      
+    totalFileds['dateLit']={u'本周':bz,u'上周':sz,u'本月':by,u'上月':sy}
+
+
+
     #print totalFileds
     return totalFileds
 
@@ -167,6 +183,24 @@ def month_get(d):#获取上月日期区间
     dayto = d - dayscount
     date_from = datetime.datetime(dayto.year, dayto.month, 1, 0, 0, 0)
     date_to = datetime.datetime(dayto.year, dayto.month, dayto.day, 23, 59, 59)
+    #print '---'.join([str(date_from), str(date_to)])
+    result={'date_from':date_from,'date_end':date_to}
+    return result
+
+def thisWeek_get(d):#本周
+    midWeek=d.weekday()
+    date_from=d-datetime.timedelta(days=(midWeek-(midWeek-1)))
+    date_to=d+datetime.timedelta(days=(6-midWeek))
+    result={'date_from':date_from,'date_end':date_to}
+    #print '---'.join([str(date_from), str(date_to)])
+    return result
+
+def thisMonth_get(d):#本月
+    yearT=d.year
+    monthT=d.month
+    monthRange = calendar.monthrange(yearT,monthT)
+    date_from = datetime.datetime(yearT, monthT, 1, 0, 0, 0)
+    date_to = date_from+datetime.timedelta(days=(monthRange[1]-1))
     #print '---'.join([str(date_from), str(date_to)])
     result={'date_from':date_from,'date_end':date_to}
     return result
