@@ -26,6 +26,7 @@ import datetime
 
 def detail(request,companyId=0000):
     context={'companyId':companyId}
+    context['userName']=request.session.get('userName',default=None)
     if check(request):#session检查
         try:
             if companyId!=0000:
@@ -63,7 +64,7 @@ def index(request,key='',value=''):
         if request.method=='POST':#入库查询            
             searchStr=request.POST['searchStr']
             #print 'searchStr:',searchStr
-            companys=CompanyData.objects.filter(companyName__contains=searchStr)
+            companys=CompanyData.objects.filter(companyName__contains=searchStr).order_by('-id')
             companysCount=CompanyData.objects.filter(companyName__contains=searchStr).count()            
             context['companysCount']=companysCount
             context['companys']=companys
@@ -78,28 +79,28 @@ def index(request,key='',value=''):
                 if value.encode('utf-8')=='上月':
                     dateResult=month_get(d)  
                 print dateResult
-                companys=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end']))
+                companys=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end'])).order_by('-id')
                 companysCount=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end'])).count()
                 context['companysCount']=companysCount
                 #获取累计本季度入库
                 context['companys']=companys
             #行业查询 
             if key=='industry':
-                companys=CompanyData.objects.filter(industry__contains=value.encode('utf-8'))
+                companys=CompanyData.objects.filter(industry__contains=value.encode('utf-8')).order_by('-id')
                 companysCount=CompanyData.objects.filter(industry__contains=value.encode('utf-8')).count()            
                 context['companysCount']=companysCount
                 context['companys']=companys
             
             #跟进状态查询 
             if key=='follow':
-                companys=CompanyData.objects.filter(companyFollowSuggest__contains=value.encode('utf-8'))
+                companys=CompanyData.objects.filter(companyFollowSuggest__contains=value.encode('utf-8')).order_by('-id')
                 companysCount=CompanyData.objects.filter(companyFollowSuggest__contains=value.encode('utf-8')).count()            
                 context['companysCount']=companysCount
                 context['companys']=companys
             
             #投资经理查询 
             if key=='user':
-                companys=CompanyData.objects.filter(user__contains=value.encode('utf-8'))
+                companys=CompanyData.objects.filter(user__contains=value.encode('utf-8')).order_by('-id')
                 companysCount=CompanyData.objects.filter(user__contains=value.encode('utf-8')).count()            
                 context['companysCount']=companysCount
                 context['companys']=companys
@@ -217,34 +218,37 @@ def logout(request):
         del request.session['userId']
     except KeyError:
         pass
-    return  HttpResponse("You're logged out.close this windows")
+    form = LoginForm(request.POST)
+    return render(request, 'projectm/login.html',{'form':form})
 
 
     
 def updateView(request,companyId=0):    
     if check(request):#session检查
         context={'companyId':companyId}
-        resStr='error'
+        stateStr='error'
         if request.method=='POST' and int(companyId)!=0: #更新数据     
             tempObject=CompanyData.objects.get(pk=companyId)
             #tempObject.companyUpdateDate=datetime.datetime.now()
-            form = CompanyDataForm(request.POST,instance=tempObject)
-            if form.is_valid():
-                form.save()
-                context['resStr']='update seucess'
-            else:
-                print form.errors
-                return render(request, 'projectm/detail.html',{'form':form,'context':context})
+            form = CompanyDataForm(request.POST,instance=tempObject)          
+            context['userName']=request.session.get('userName',default=None)
+            if tempObject.user==context['userName']:
+                if form.is_valid():
+                    form.save()
+                    context['stateStr']='数据更新成功'
+                else:
+                    print form.errors
+                    context['stateStr']='数据输入有误，请重新输入！' 
+            else:#非创建人 无权修改数据
+                context['stateStr']='非创建人，无权修改数据！'
         
         else:#创建新记录
             print "new"
             form = CompanyDataForm(request.POST)
             if form.is_valid():
                 instances=form.save()
-                resStr='create new data'           
-            else:
-                return render(request, 'projectm/detail.html',{'form':form,'context':context})
-        return  HttpResponse("You're "+resStr)
+                context['stateStr']='创建新公司成功！'  
+        return  render(request, 'projectm/detail.html',{'form':form,'context':context})
     else:
         return HttpResponseRedirect('/projectm/login/')#验证失败
     return render(request, 'projectm/index.html',{'context':context})

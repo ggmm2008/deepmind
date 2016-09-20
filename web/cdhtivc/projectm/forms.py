@@ -9,12 +9,11 @@ from projectm.models import CompanyData
 
 class CompanyDataForm(ModelForm):  
     
-    
-    
+       
     class Meta:
         model=CompanyData
         fields ='__all__'
-        
+    
 
 
 

@@ -43,7 +43,7 @@ class FinancialSituation(models.Model):#财务状况
 class CompanyData(models.Model):
     industryChioce=[('xxjs','新一代信息技术'),('swzy','生物制药'),('jnhb','节能环保'),('zbzz','高端装备制造')]#行业类型
     natureChioce=[('yx','有限公司'),('gf','股份有限公司'),('td','团队')]
-    suggestChioce=[('ybgz','一般关注'),('zdgz','重点关注'),('zh','暂缓项目'),('lx','立项'),('gh','已过会'),('ybk','已拨款')]
+    suggestChioce=[('一般关注','一般关注'),('重点关注','重点关注'),('暂缓项目','暂缓项目'),('立项','立项'),('已过会','已过会'),('已拨款','已拨款')]
     companyId=models.CharField("项目编号",max_length=8,default=None)#项目编号
     companyCreateDate=models.DateField("入库日期",default=None)#入库日期
     companyProjectSetUpTime=models.DateField("立项日期",default=None,null=True,blank=True)#立项日期

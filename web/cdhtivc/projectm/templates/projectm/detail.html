@@ -38,57 +38,14 @@
 					<div>
 						<div class="navbox">                
 							<div class="boxed">
-								<a class="logo fll" href="https://www.itjuzi.com/">
-									<h1 class="seeo">IT桔子</h1>
+								<a class="logo fll" href="/projectm/">
+									<h1 class="seeo">项目管理</h1>
 								</a>
 								<ul class="mainnav">
 									<li class="tab on">
-										<a href="https://www.itjuzi.com/">首页</a>
+										<a href="/projectm/">首页</a>
 									</li>
-									<li class="tab hoversub withsub">
-										<a href="https://www.itjuzi.com/activity">活动</a>
-										<div class="subblock sub-activity">
-											<div class="boxed">
-												<ul class="list-subactivity">
-																																									<li>
-															<a href="https://www.itjuzi.com/activity/146" target="_blank">
-																<p class="title">2016年在线教育创投趋势探讨（深圳）</p>
-																<p>
-																																			<span class="">报名中</span>
-																																		<span class="t-small c-gray">2016年9月24日</span>
-																</p>
-															</a>
-														</li>
-																																									<li>
-															<a href="https://www.itjuzi.com/activity/145" target="_blank">
-																<p class="title">北京公开课 | 合伙创业如何分配股权？</p>
-																<p>
-																																			<span class="">已结束</span>
-																																		<span class="t-small c-gray">2016年9月13日</span>
-																</p>
-															</a>
-														</li>
-																																									<li>
-															<a href="https://www.itjuzi.com/activity/144" target="_blank">
-																<p class="title">桔子空间导师坐班：9月PreAngel，戈壁资本投资总监1对1私聊</p>
-																<p>
-																																			<span class="">报名中</span>
-																																		<span class="t-small c-gray">2016年9月23日</span>
-																</p>
-															</a>
-														</li>
-													
-													<!-- more -->
-													<li class="more">
-														<a href="https://www.itjuzi.com/activity" target="_blank">
-															<span class="more">查看全部活动 <i class="fa fa-angle-right"></i></span>
-														</a>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</li>
-	
+									
 	
 				
 								</ul>
@@ -120,40 +77,18 @@
 								</div> -->
 								<div class="usernav">
 									<div class="usersearch">
-										<form action="https://www.itjuzi.com/search">
-											<input type="text" name="key" spellcheck="false" autocomplete="off" placeholder="创业公司、投资机构等…">
+										<form action="/projectm/" method="post">
+											{% csrf_token %}
+                                            <input type="text" name="searchStr" spellcheck="false" autocomplete="off" placeholder="请输入公司名称…">
 											<button class="jzbtn bg-c" type="submit"><i class="fa fa-search"></i></button>
 										</form>
 									</div>
 									<div class="useradd">
-																					<a target="_blank" href="https://www.itjuzi.com/add/company"><span class="jzbtn c-lined"><i class="fa fa-plus"></i> 添加公司</span></a>
+											<a target="_blank" href="/projectm/new/"><span class="jzbtn c-lined"><i class="fa fa-plus"></i> 添加公司</span></a>
 																			</div>
 	
-										<div class="usermenu hoversub">
-											<a href="https://www.itjuzi.com/user/192615" title="进入个人中心">〓大羽飞鹤〓_dee21d99cf</a>
-																							<a></a>
-																						<div class="subblock">
-												<ul class="list-dropdown-menu">
-													<li><a href="https://www.itjuzi.com/user/192615">个人中心</a></li>
-													<li><a href="https://www.itjuzi.com/user/get_follow_history/192615">公司足迹</a></li>
-													<li><a href="https://www.itjuzi.com/user/edit">设置</a></li>
-													<li><a id="logout_btn" href="#">退出</a></li>
-													<script type="text/javascript">
-													$(document).ready(function () {
-														$("#logout_btn").bind("click", logout_user);
-													});
-													/**
-													* 清除保存在localStorage中的用户名和密码，然后再调用退出功能
-													* 【闫涛 2016.09.07】初始版本
-													*/
-													function logout_user() {
-														localStorage.setItem("create_account_email", "x");
-														localStorage.setItem("create_account_password", "x");
-														window.location.href = "https://www.itjuzi.com/user/logout";
-													}
-													</script>
-												</ul>
-											</div>
+									 <div class="userlogin">											
+											<a class="jzbtn" href="/projectm/logout/">注销({{context.userName}})</a>
 										</div>
 																	</div>
 							</div>
@@ -174,15 +109,7 @@
 					</div>
 				</div>
 						<div class="site-bgbanner-ugc bgcover c-white">
-	<div class="infohead-titlehead">
-		<div class="boxed boxed-small">
-			<ul class="bread withbg">
-				<li><a href="/projectm/">首页</a></li>
-				<li>详细信息</li>
-			</ul>
-			<h3 class="title"><b>详细信息</b></h3>
-		</div>
-	</div>
+
 </div>
 
 <div class="boxed boxed-small">
@@ -190,6 +117,7 @@
 		<div class="sec with-min-height">
 			<div class="titlebar">
 				<span><i class="fa fa-plus"></i> 详细信息</span>
+				<span style="color:red;">{{context.stateStr}}</span>
 			</div>
 			<div>
 				
@@ -333,14 +261,14 @@
 							</tr>						
 
 							<tr>								
-								<td>{{form.companyProjectSetUpTime.label_tag}} <i class="redstar">*</i></td>
+								<td>{{form.companyProjectSetUpTime.label_tag}} </td>
 								<td>									
 									{{ form.companyProjectSetUpTime|attr:"size:40px" }}
 								</td>								
 							</tr>
 
 							<tr>								
-								<td>{{form.companyProjectPassDate.label_tag}} <i class="redstar">*</i></td>
+								<td>{{form.companyProjectPassDate.label_tag}} </td>
 								<td>									
 									{{ form.companyProjectPassDate|attr:"size:40px" }}
 								</td>								
