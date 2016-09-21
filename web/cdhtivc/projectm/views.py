@@ -51,7 +51,9 @@ def detail(request,companyId=0000):
 
 def index(request,key='',value=''):
     print key,value
-    context={}
+    context={} 
+    totalFiledsName={'':'none','industry':'行业分类','follow':'跟进建议','dateLti':'入库时间','user':'投资经理'}
+    context['seachKeyValue']={'key':totalFiledsName[key],'value':value}
     if check(request):#session检查        
         d = datetime.datetime.now()
         context['totalFileds']=tFileds(d)#统计字段
@@ -62,11 +64,8 @@ def index(request,key='',value=''):
         countAll=CompanyData.objects.count
         userCount=CompanyData.objects.filter(user=context['userId']).count()
         context['countAll']=countAll
-        context['userCount']=userCount
-       
-        
-        
-        
+        context['userCount']=userCount   
+ 
         if request.method=='POST':#入库查询            
             searchStr=request.POST['searchStr']
             #print 'searchStr:',searchStr
@@ -79,7 +78,7 @@ def index(request,key='',value=''):
             
             #时间查询            
             if key=='dateLti' or key=='':
-                dateResult=week_get(d)               
+                dateResult=thisWeek_get(d)               
                 if value.encode('utf-8')=='上周':
                     dateResult=week_get(d)                     
                 if value.encode('utf-8')=='上月':
@@ -91,8 +90,7 @@ def index(request,key='',value=''):
                 #print dateResult
                 companys=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end'])).order_by('-id')
                 companysCount=CompanyData.objects.filter(companyCreateDate__range=(dateResult['date_from'],dateResult['date_end'])).count()
-                context['companysCount']=companysCount
-                #获取累计本季度入库
+                context['companysCount']=companysCount                
                 context['companys']=companys
             #行业查询 
             if key=='industry':
