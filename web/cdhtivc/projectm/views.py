@@ -145,7 +145,7 @@ def tCount(totalFileds): #汇总信息计算
         #industry 汇总
             for i in range(len(totalFileds[tmp])):                
                 tCountResult[tmp][totalFileds[tmp][i].decode('utf-8')]=CompanyData.objects.filter(industry__contains=totalFileds[tmp][i]).count()                
-            
+           
         if tmp=='companyFollowSuggest':
         #companyFollowSuggest 汇总
             for i in range(len(totalFileds[tmp])):

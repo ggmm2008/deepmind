@@ -233,7 +233,7 @@
                                 {% for company in context.companys%}         
                                 <li>
 								<i class="cell round">
-									<span>{{company.companyCreateDate}}</span>
+									<span>{{company.companyCreateDate|date:"Y-m-d" }}</span>
 								</i>							
 								<i class="cell maincell">
 									<p class="title">
