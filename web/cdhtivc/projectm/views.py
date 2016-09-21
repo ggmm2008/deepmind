@@ -221,7 +221,7 @@ def check(request):#session检查
 
 def login(request):
     print request.user
-   
+    
     errorStr=''         
     if request.method=='POST':           
         #print  form.cleaned_data
@@ -235,6 +235,7 @@ def login(request):
                 print userInfo.userName,userInfo.passWord
                 if userInfo.passWord==passwd:
                     #存入session
+                    
                     request.session['userId']=userInfo.id
                     request.session['userName']=userInfo.userName
                     return HttpResponseRedirect('/projectm/')#登录成功，跳转
