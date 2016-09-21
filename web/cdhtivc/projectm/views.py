@@ -37,7 +37,8 @@ def detail(request,companyId=0000):
             else:
                 print " create new company"
                 company=CompanyData(user=request.session.get('userName',default=None))#新建记录
-                company.companyUpdateDate=datetime.datetime.now()  
+                company.companyUpdateDate=datetime.datetime.now().strftime('%Y-%m-%d')
+                company.companyCreateDate=datetime.datetime.now().strftime('%Y-%m-%d')
                 company.companyId=int(CompanyData.objects.latest('companyId').companyId)+1
                 form=CompanyDataForm(instance=company)
                 
@@ -139,23 +140,23 @@ def tCount(totalFileds): #汇总信息计算
     tCountResult={}    
     #print totalFileds
     for tmp in totalFileds.keys():
-        tCountResult[tmp]={}
+        tCountResult[tmp]=[]
         #print 'tmp:',tmp
         if tmp=='industry':
         #industry 汇总
             for i in range(len(totalFileds[tmp])):                
-                tCountResult[tmp][totalFileds[tmp][i].decode('utf-8')]=CompanyData.objects.filter(industry__contains=totalFileds[tmp][i]).count()                
-           
+                tCountResult[tmp].append({'key':totalFileds[tmp][i],'value':CompanyData.objects.filter(industry__contains=totalFileds[tmp][i]).count()})               
+        
         if tmp=='companyFollowSuggest':
         #companyFollowSuggest 汇总
             for i in range(len(totalFileds[tmp])):
-                tCountResult[tmp][totalFileds[tmp][i].decode('utf-8')]=CompanyData.objects.filter(companyFollowSuggest__contains=totalFileds[tmp][i]).count()
+                tCountResult[tmp].append({'key':totalFileds[tmp][i],'value':CompanyData.objects.filter(companyFollowSuggest__contains=totalFileds[tmp][i]).count()})
            
         if tmp=='user':
         #user 汇总
             for i in range(len(totalFileds[tmp])):
-                tCountResult[tmp][totalFileds[tmp][i].decode('utf-8')]=CompanyData.objects.filter(user__contains=totalFileds[tmp][i]).count()   
-    #print 'tCountResult',tCountResult
+                tCountResult[tmp].append({'key':totalFileds[tmp][i],'value':CompanyData.objects.filter(user__contains=totalFileds[tmp][i]).count()})   
+    print 'tCountResult',tCountResult
     return tCountResult
 
 

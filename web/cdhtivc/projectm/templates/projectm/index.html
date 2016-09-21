@@ -90,11 +90,11 @@
 	<div class="titlebar"><span>行业统计</span><a href="https://www.itjuzi.com/investfirm" class="right-btn flr" target="_blank">{{context.countAll}}</a></div>
 	  <div>
 		<ul class="list-link-lite top10">
-				{% for key,value in context.tCount.industry.iteritems%}                                                        
+				{% for company in context.tCount.industry|dictsortreversed:"value"%}                                                        
                                                                  
 				<li>
 					<a href="javascript:void()">
-						{{key}}<span class="flr">{{value}}</span>
+						{{company.key}}<span class="flr">{{company.value}}</span>
 					</a>
 				</li>
 				{% endfor %}
@@ -107,11 +107,11 @@
 	<div class="titlebar"><span>跟进状态统计</span><a href="https://www.itjuzi.com/investfirm" class="right-btn flr" target="_blank">{{context.countAll}}</a></div>
 	  <div>
 		<ul class="list-link-lite top10">
-				{% for key,value in context.tCount.companyFollowSuggest.iteritems%}                                                        
+				{% for company in context.tCount.companyFollowSuggest|dictsortreversed:"value"%}                                                        
                                                                  
 				<li>
 					<a href="javascript:void()">
-						{{key}}<span class="flr">{{value}}</span>
+						{{company.key}}<span class="flr">{{company.value}}</span>
 					</a>
 				</li>
 				{% endfor %}
@@ -125,11 +125,11 @@
 	<div class="titlebar"><span>投资经理统计</span><a href="https://www.itjuzi.com/investfirm" class="right-btn flr" target="_blank">{{context.countAll}}</a></div>
 	  <div>
 		<ul class="list-link-lite top10">
-				{% for key,value in context.tCount.user.iteritems%}                                                        
+				{% for company in context.tCount.user|dictsortreversed:"value"%}                                                        
                                                                  
 				<li>
 					<a href="javascript:void()">
-						{{key}}<span class="flr">{{value}}</span>
+						{{company.key}}<span class="flr">{{company.value}}</span>
 					</a>
 				</li>
 				{% endfor %}
