@@ -51,10 +51,10 @@ class CompanyData(models.Model):
     companyUpdateDate=models.DateTimeField("更新时间",default=None,null=True,blank=True)#更新日期
     companyName=models.CharField("公司名称",max_length=200,error_messages={'required':"名称不能未空"})#公司名称
     companyNature=models.CharField("公司类型",max_length=10,choices=natureChioce,default='yx')#公司性质
-    companyAddress=models.CharField("公司地址",max_length=500,default=None,blank=True)#地址
-    companyRegisteredDate=models.DateField('注册时间',default=None,blank=True)#公司成立日期
+    companyAddress=models.CharField("公司地址",max_length=500,default=None,null=True,blank=True)#地址
+    companyRegisteredDate=models.DateField('注册时间',default=None,null=True,blank=True)#公司成立日期
     #industry=models.CharField(max_length=20)#行业
-    registeredCaptital=models.CharField("注册资本",max_length=100,default=None,blank=True)#注册资本
+    registeredCaptital=models.CharField("注册资本",max_length=100,null=True,default=None,blank=True)#注册资本
     contactPeople=models.CharField("联系人",max_length=10,default=None)#联系人
     contactPhone=models.CharField("联系电话",max_length=50,default=None)#联系方式
     companyAbstract=models.TextField("公司基本情况",default=None)#公司基本情况

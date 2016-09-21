@@ -14,7 +14,7 @@ from .forms import CompanyDataForm,LoginForm
 from django.db.models import Count
 import json
 from django.http import JsonResponse
-from django.db.models import Count
+from django.db.models import Count,Max
 from django.views.generic.edit import UpdateView
 
 import datetime
@@ -37,7 +37,8 @@ def detail(request,companyId=0000):
             else:
                 print " create new company"
                 company=CompanyData(user=request.session.get('userName',default=None))#新建记录
-                company.companyUpdateDate=datetime.datetime.now()
+                company.companyUpdateDate=datetime.datetime.now()  
+                company.companyId=int(CompanyData.objects.latest('companyId').companyId)+1
                 form=CompanyDataForm(instance=company)
                 
         except CompanyData.DoesNotExist:
