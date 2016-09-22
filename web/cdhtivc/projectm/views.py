@@ -154,7 +154,7 @@ def tCount(totalFileds): #汇总信息计算
         #user 汇总
             for i in range(len(totalFileds[tmp])):
                 tCountResult[tmp].append({'key':totalFileds[tmp][i],'value':CompanyData.objects.filter(user__contains=totalFileds[tmp][i]).count()})   
-    print 'tCountResult',tCountResult
+    #print 'tCountResult',tCountResult
     return tCountResult
 
 
