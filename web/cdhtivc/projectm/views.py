@@ -52,7 +52,7 @@ def detail(request,companyId=0000):
 def index(request,key='',value=''):
     print key,value
     context={} 
-    totalFiledsName={'':'none','industry':'行业分类','follow':'跟进建议','dateLti':'入库时间','user':'投资经理'}
+    totalFiledsName={'':'none','company':'公司名称','industry':'行业分类','follow':'跟进建议','dateLti':'入库时间','user':'投资经理'}
     context['seachKeyValue']={'key':totalFiledsName[key],'value':value}
     if check(request):#session检查        
         d = datetime.datetime.now()
@@ -68,6 +68,7 @@ def index(request,key='',value=''):
  
         if request.method=='POST':#入库查询            
             searchStr=request.POST['searchStr']
+            context['seachKeyValue']={'key':totalFiledsName['company'],'value':searchStr}
             #print 'searchStr:',searchStr
             companys=CompanyData.objects.filter(companyName__contains=searchStr).order_by('-id')
             companysCount=CompanyData.objects.filter(companyName__contains=searchStr).count()            
